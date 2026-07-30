@@ -1,98 +1,124 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './CursorFollower.css';
 
-const INTERACTIVE_SELECTOR = 'a, button, input, textarea, select, [role="button"], [role="option"]';
+const INTERACTIVE_SELECTOR =
+  'a, button, img, input, textarea, select, [role="button"], [role="option"]';
+
+const lerp = (start, end, factor) => start + (end - start) * factor;
 
 export default function CursorFollower() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
+  const mousePosition = useRef({ x: 0, y: 0 });
+  const dotPosition = useRef({ x: 0, y: 0 });
+  const borderPosition = useRef({ x: 0, y: 0 });
+  const hasMoved = useRef(false);
+
+  const [renderPosition, setRenderPosition] = useState({
+    dot: { x: 0, y: 0 },
+    border: { x: 0, y: 0 }
+  });
+  const [isHovering, setIsHovering] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (reducedMotion.matches) return undefined;
-
-    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    const dot = { ...mouse };
-    const ring = { ...mouse };
-    let animationFrame;
-    let hasMoved = false;
+    let animationId;
 
     const handleMouseMove = event => {
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
+      const nextPosition = { x: event.clientX, y: event.clientY };
+      mousePosition.current = nextPosition;
 
-      if (!hasMoved) {
-        dot.x = mouse.x;
-        dot.y = mouse.y;
-        ring.x = mouse.x;
-        ring.y = mouse.y;
-        hasMoved = true;
+      if (!hasMoved.current) {
+        hasMoved.current = true;
+        dotPosition.current = { ...nextPosition };
+        borderPosition.current = { ...nextPosition };
+        setRenderPosition({ dot: { ...nextPosition }, border: { ...nextPosition } });
+        setIsVisible(true);
         document.documentElement.classList.add('cursor-follower-enabled');
-        dotRef.current?.classList.add('is-visible');
-        ringRef.current?.classList.add('is-visible');
       }
     };
 
-    const handlePointerOver = event => {
-      if (event.target.closest?.(INTERACTIVE_SELECTOR)) {
-        ringRef.current?.classList.add('is-hovering');
-      }
-    };
-
-    const handlePointerOut = event => {
-      const nextInteractive = event.relatedTarget?.closest?.(INTERACTIVE_SELECTOR);
-      if (!nextInteractive) ringRef.current?.classList.remove('is-hovering');
-    };
-
-    const handleWindowLeave = () => {
-      dotRef.current?.classList.remove('is-visible');
-      ringRef.current?.classList.remove('is-visible');
-    };
-
-    const handleWindowEnter = () => {
-      if (!hasMoved) return;
-      dotRef.current?.classList.add('is-visible');
-      ringRef.current?.classList.add('is-visible');
-    };
-
-    const animate = () => {
-      dot.x += (mouse.x - dot.x) * 0.22;
-      dot.y += (mouse.y - dot.y) * 0.22;
-      ring.x += (mouse.x - ring.x) * 0.1;
-      ring.y += (mouse.y - ring.y) * 0.1;
-
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${dot.x}px, ${dot.y}px, 0) translate(-50%, -50%)`;
-      }
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ring.x}px, ${ring.y}px, 0) translate(-50%, -50%)`;
-      }
-
-      animationFrame = requestAnimationFrame(animate);
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
+    const hideCursor = () => setIsVisible(false);
+    const showCursor = () => {
+      if (hasMoved.current) setIsVisible(true);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('pointerover', handlePointerOver);
-    document.addEventListener('pointerout', handlePointerOut);
-    document.documentElement.addEventListener('mouseleave', handleWindowLeave);
-    document.documentElement.addEventListener('mouseenter', handleWindowEnter);
-    animationFrame = requestAnimationFrame(animate);
+    document.documentElement.addEventListener('mouseleave', hideCursor);
+    document.documentElement.addEventListener('mouseenter', showCursor);
+
+    const interactiveElements = document.querySelectorAll(INTERACTIVE_SELECTOR);
+    interactiveElements.forEach(element => {
+      element.addEventListener('mouseenter', handleMouseEnter);
+      element.addEventListener('mouseleave', handleMouseLeave);
+    });
+
+    const animate = () => {
+      dotPosition.current.x = lerp(
+        dotPosition.current.x,
+        mousePosition.current.x,
+        0.2
+      );
+      dotPosition.current.y = lerp(
+        dotPosition.current.y,
+        mousePosition.current.y,
+        0.2
+      );
+      borderPosition.current.x = lerp(
+        borderPosition.current.x,
+        mousePosition.current.x,
+        0.1
+      );
+      borderPosition.current.y = lerp(
+        borderPosition.current.y,
+        mousePosition.current.y,
+        0.1
+      );
+
+      if (hasMoved.current) {
+        setRenderPosition({
+          dot: { ...dotPosition.current },
+          border: { ...borderPosition.current }
+        });
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       document.documentElement.classList.remove('cursor-follower-enabled');
       window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('pointerover', handlePointerOver);
-      document.removeEventListener('pointerout', handlePointerOut);
-      document.documentElement.removeEventListener('mouseleave', handleWindowLeave);
-      document.documentElement.removeEventListener('mouseenter', handleWindowEnter);
-      cancelAnimationFrame(animationFrame);
+      document.documentElement.removeEventListener('mouseleave', hideCursor);
+      document.documentElement.removeEventListener('mouseenter', showCursor);
+      interactiveElements.forEach(element => {
+        element.removeEventListener('mouseenter', handleMouseEnter);
+        element.removeEventListener('mouseleave', handleMouseLeave);
+      });
+      cancelAnimationFrame(animationId);
     };
   }, []);
 
   return (
-    <div className="cursor-follower" aria-hidden="true">
-      <span ref={dotRef} className="cursor-follower__dot" />
-      <span ref={ringRef} className="cursor-follower__ring" />
+    <div
+      className={`cursor-follower${isVisible ? ' is-visible' : ''}`}
+      aria-hidden="true"
+    >
+      <span
+        className="cursor-follower__dot"
+        style={{
+          left: `${renderPosition.dot.x}px`,
+          top: `${renderPosition.dot.y}px`
+        }}
+      />
+      <span
+        className={`cursor-follower__ring${isHovering ? ' is-hovering' : ''}`}
+        style={{
+          left: `${renderPosition.border.x}px`,
+          top: `${renderPosition.border.y}px`
+        }}
+      />
     </div>
   );
 }

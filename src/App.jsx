@@ -5,11 +5,13 @@ import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CursorFollower from './components/CursorFollower';
+import SectionNavigator from './components/SectionNavigator';
 
 export default function App() {
   return (
     <>
       <CursorFollower />
+      <SectionNavigator />
       <Header />
       <main>
         <Hero />
