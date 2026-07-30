@@ -40,10 +40,6 @@
   will-change: transform, opacity;
 }
 
-.impact-statement-line.impact-statement-highlight {
-  color: #67d5cf;
-}
-
 .impact-statement-line-content {
   width: 100%;
   display: flex;
@@ -51,10 +47,12 @@
   justify-content: center;
   flex-wrap: wrap;
   column-gap: 0.2em;
+  row-gap: 0.05em;
 }
 
 .impact-rotating-word {
   display: inline-grid;
+  color: #67d5cf;
   text-align: left;
   white-space: nowrap;
 }

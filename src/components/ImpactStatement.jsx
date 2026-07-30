@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import './ImpactStatement.css';
 
-const rotatingWords = ['estratégica', 'eficiente', 'digital', 'inteligente'];
+const rotatingWords = ['moderna', 'estratégica', 'visível', 'eficiente', 'inteligente'];
 
 export default function ImpactStatement() {
   const [wordIndex, setWordIndex] = useState(0);
@@ -35,7 +35,7 @@ export default function ImpactStatement() {
           className="impact-statement-title"
           role="heading"
           aria-level="2"
-          aria-label="Transforme sua empresa. Torne-a mais estratégica."
+          aria-label="Torne sua empresa mais moderna."
         >
           <motion.span
             className="impact-statement-line"
@@ -45,20 +45,10 @@ export default function ImpactStatement() {
             viewport={{ once: false, amount: 0.5 }}
             transition={{ duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
           >
-            Transforme sua empresa.
-          </motion.span>
-          <motion.span
-            className="impact-statement-line impact-statement-highlight"
-            aria-hidden="true"
-            initial={{ opacity: 0.45, y: 36, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.78, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          >
             <span className="impact-statement-line-content">
-              <span>Torne-a mais</span>
+              <span>Torne sua empresa mais</span>
               <span className="impact-rotating-word">
-                <span className="impact-rotating-word-measure">inteligente.</span>
+                <span className="impact-rotating-word-measure">estratégica.</span>
                 <AnimatePresence initial={false}>
                   <motion.span
                     key={currentWord}
