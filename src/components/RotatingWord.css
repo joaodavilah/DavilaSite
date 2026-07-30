@@ -16,6 +16,11 @@
   will-change: transform, opacity, filter;
 }
 
+.rotating-word-character {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
 .rotating-word-measure {
   visibility: hidden;
   pointer-events: none;

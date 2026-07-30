@@ -3,7 +3,6 @@ import {
   motion,
   useMotionValue,
   useAnimationFrame,
-  useReducedMotion,
   useTransform
 } from 'motion/react';
 import './GradientText.css';
@@ -22,12 +21,11 @@ export default function GradientText({
   const progress = useMotionValue(0);
   const elapsedRef = useRef(0);
   const lastTimeRef = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
 
   const animationDuration = animationSpeed * 1000;
 
   useAnimationFrame(time => {
-    if (isPaused || shouldReduceMotion) {
+    if (isPaused) {
       lastTimeRef.current = null;
       return;
     }
