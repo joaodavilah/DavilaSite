@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import CursorFollower from './components/CursorFollower';
 import SectionNavigator from './components/SectionNavigator';
 import ContactIntro from './components/ContactIntro';
+import ImpactStatement from './components/ImpactStatement';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        <ImpactStatement />
         <Services />
         <ContactIntro />
         <Contact />
