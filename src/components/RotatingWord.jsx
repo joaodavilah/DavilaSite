@@ -1,59 +1,114 @@
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  AnimatePresence,
+  usePresence,
+  useReducedMotion
+} from 'motion/react';
+import { gsap } from 'gsap';
+import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 import './RotatingWord.css';
 
-const CHARACTER_DURATION = 0.24;
-const CHARACTER_STAGGER = 0.012;
+gsap.registerPlugin(GSAPSplitText);
 
-const AnimatedWord = ({ word }) => {
+const AnimatedWord = ({ word, renderWord, animateIn }) => {
+  const rootRef = useRef(null);
+  const splitRef = useRef(null);
+  const enterTweenRef = useRef(null);
+  const exitTweenRef = useRef(null);
+  const [isPresent, safeToRemove] = usePresence();
   const shouldReduceMotion = useReducedMotion();
-  const characters = Array.from(word);
-  const offset = shouldReduceMotion ? 6 : 16;
-  const blur = shouldReduceMotion ? 2 : 5;
-  const enterDuration = shouldReduceMotion ? 0.18 : CHARACTER_DURATION;
-  const exitDuration = shouldReduceMotion ? 0.16 : 0.2;
-  const enterStagger = shouldReduceMotion ? 0.006 : CHARACTER_STAGGER;
-  const exitStagger = shouldReduceMotion ? 0.004 : 0.008;
 
-  return characters.map((character, index) => (
-    <motion.span
-      key={`${word}-${index}`}
-      className="rotating-word-character"
-      aria-hidden="true"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={{
-        initial: {
+  const offset = shouldReduceMotion ? 8 : 24;
+  const enterDuration = shouldReduceMotion ? 0.22 : 0.42;
+  const exitDuration = shouldReduceMotion ? 0.16 : 0.2;
+  const enterStagger = shouldReduceMotion ? 0.01 : 0.028;
+  const exitStagger = shouldReduceMotion ? 0.005 : 0.01;
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const textElement = root?.querySelector('.text-content') || root;
+    if (!textElement) return undefined;
+
+    const split = new GSAPSplitText(textElement, {
+      type: 'chars',
+      charsClass: 'rotating-word-character',
+      reduceWhiteSpace: false
+    });
+    splitRef.current = split;
+
+    if (animateIn) {
+      enterTweenRef.current = gsap.fromTo(
+        split.chars,
+        {
           opacity: 0,
-          top: offset,
-          filter: `blur(${blur}px)`
+          top: offset
         },
-        animate: {
+        {
           opacity: 1,
           top: 0,
-          filter: 'blur(0px)',
-          transition: {
-            duration: enterDuration,
-            delay: index * enterStagger,
-            ease: [0.22, 1, 0.36, 1]
-          }
-        },
-        exit: {
-          opacity: 0,
-          top: -offset,
-          filter: `blur(${blur}px)`,
-          transition: {
-            duration: exitDuration,
-            delay: (characters.length - index - 1) * exitStagger,
-            ease: [0.4, 0, 1, 1]
-          }
+          duration: enterDuration,
+          ease: 'power3.out',
+          stagger: enterStagger,
+          clearProps: 'opacity,top'
         }
-      }}
+      );
+    }
+
+    return () => {
+      enterTweenRef.current?.kill();
+      exitTweenRef.current?.kill();
+      split.revert();
+      splitRef.current = null;
+    };
+  }, [
+    animateIn,
+    enterDuration,
+    enterStagger,
+    offset,
+    word
+  ]);
+
+  useEffect(() => {
+    if (isPresent) return undefined;
+
+    const characters = splitRef.current?.chars;
+    enterTweenRef.current?.kill();
+
+    if (!characters?.length) {
+      safeToRemove?.();
+      return undefined;
+    }
+
+    exitTweenRef.current = gsap.to(characters, {
+      opacity: 0,
+      top: -offset,
+      duration: exitDuration,
+      ease: 'power2.in',
+      stagger: {
+        each: exitStagger,
+        from: 'end'
+      },
+      onComplete: safeToRemove
+    });
+
+    return () => exitTweenRef.current?.kill();
+  }, [
+    exitDuration,
+    exitStagger,
+    isPresent,
+    offset,
+    safeToRemove
+  ]);
+
+  return (
+    <span
+      ref={rootRef}
+      className="rotating-word-value"
+      aria-label={word}
     >
-      {character}
-    </motion.span>
-  ));
+      {renderWord ? renderWord(word) : word}
+    </span>
+  );
 };
 
 export default function RotatingWord({
@@ -65,7 +120,12 @@ export default function RotatingWord({
 }) {
   const rotatingWords = words?.length ? words : [''];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const hasMountedRef = useRef(false);
   const currentWord = rotatingWords[currentWordIndex];
+
+  useEffect(() => {
+    hasMountedRef.current = true;
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -91,17 +151,12 @@ export default function RotatingWord({
       ))}
 
       <AnimatePresence initial={false} mode="wait">
-        <motion.span
+        <AnimatedWord
           key={currentWord}
-          className="rotating-word-value"
-          aria-label={`${currentWord}${suffix}`}
-        >
-          {renderWord
-            ? renderWord(
-                <AnimatedWord word={`${currentWord}${suffix}`} />
-              )
-            : <AnimatedWord word={`${currentWord}${suffix}`} />}
-        </motion.span>
+          word={`${currentWord}${suffix}`}
+          renderWord={renderWord}
+          animateIn={hasMountedRef.current}
+        />
       </AnimatePresence>
     </span>
   );
