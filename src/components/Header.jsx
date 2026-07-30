@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'motion/react';
 import SplitText from './SplitText';
 
 const links = [
@@ -28,9 +29,18 @@ export default function Header() {
   return (
     <header className="site-header" id="topo">
       <div className="header-inner">
-        <a href="#topo" className="logo" aria-label="DAVILA — página inicial" onClick={closeMenu}>
+        <motion.a
+          href="#topo"
+          className="logo"
+          aria-label="DAVILA — página inicial"
+          onClick={closeMenu}
+          initial={{ scale: 0.82, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ rotate: 8, scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+        >
           <img src="/assets/images/Vector.png" alt="" className="logo-vector" />
-        </a>
+        </motion.a>
 
         <nav className="main-nav" aria-label="Navegação principal">
           <ul className="nav-list">
@@ -43,6 +53,19 @@ export default function Header() {
             ))}
           </ul>
         </nav>
+
+        <motion.a
+          href="#contato"
+          className="header-cta"
+          onClick={closeMenu}
+          initial={{ opacity: 0, x: 18 }}
+          animate={{ opacity: 1, x: 0 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
+          Fale conosco
+        </motion.a>
 
         <button
           type="button"
@@ -78,6 +101,10 @@ export default function Header() {
               </li>
             ))}
           </ul>
+
+          <a href="#contato" className="mobile-nav-cta" onClick={closeMenu}>
+            Fale conosco
+          </a>
         </div>
       </div>
     </header>

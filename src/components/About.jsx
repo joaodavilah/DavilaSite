@@ -1,5 +1,6 @@
 import StarBorder from './StarBorder';
 import SplitText from './SplitText';
+import GradientText from './GradientText';
 
 const pillars = ['Estratégia', 'Design', 'Tecnologia', 'Dados'];
 
@@ -23,19 +24,27 @@ export default function About() {
               to={{ opacity: 1, y: 0 }}
             />
 
-            <SplitText
-              text="voos maiores"
-              tag="span"
-              className="about-gradient-split"
-              splitType="chars"
-              delay={38}
-              duration={0.7}
-              threshold={0.12}
-              rootMargin="-40px"
-              textAlign="left"
-              from={{ opacity: 0, y: 28 }}
-              to={{ opacity: 1, y: 0 }}
-            />
+            <GradientText
+              colors={['#214d6d', '#51a7a3', '#2e7fa7']}
+              animationSpeed={4}
+              direction="horizontal"
+              showBorder={false}
+              className="about-gradient-highlight"
+            >
+              <SplitText
+                text="voos maiores"
+                tag="span"
+                className="about-gradient-split"
+                splitType="chars"
+                delay={38}
+                duration={0.7}
+                threshold={0.12}
+                rootMargin="-40px"
+                textAlign="left"
+                from={{ opacity: 0, y: 28 }}
+                to={{ opacity: 1, y: 0 }}
+              />
+            </GradientText>
 
             <SplitText
               text="no mercado digital."
