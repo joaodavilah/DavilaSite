@@ -50,26 +50,20 @@
   row-gap: 0.05em;
 }
 
-.impact-rotating-word {
-  display: inline-grid;
-  color: #67d5cf;
-  text-align: left;
-  white-space: nowrap;
+.impact-statement-gradient-fragment {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  overflow: visible;
+  backdrop-filter: none;
 }
 
-.impact-rotating-word-value,
-.impact-rotating-word-measure {
-  grid-area: 1 / 1;
-}
-
-.impact-rotating-word-value {
+.impact-statement-gradient-fragment .text-content {
   display: inline-block;
-  will-change: transform, opacity;
-}
-
-.impact-rotating-word-measure {
-  visibility: hidden;
-  pointer-events: none;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
 }
 
 @media (max-width: 720px) {
