@@ -1,6 +1,7 @@
 .contact-intro {
   min-height: clamp(430px, 68svh, 760px);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   padding: clamp(80px, 10vw, 150px) var(--gutter);
   color: var(--paper);
@@ -12,6 +13,8 @@
 
 .contact-intro-float {
   width: 100%;
+  max-width: 100%;
+  justify-self: stretch;
   text-align: center;
 }
 
@@ -31,7 +34,8 @@
   }
 
   .contact-intro-text {
-    font-size: clamp(48px, 15vw, 78px);
+    font-size: clamp(36px, 12vw, 64px);
     line-height: 1.02;
+    letter-spacing: -0.045em;
   }
 }

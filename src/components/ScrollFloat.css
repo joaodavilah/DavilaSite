@@ -1,15 +1,23 @@
 .scroll-float {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
   overflow: hidden;
 }
 
 .scroll-float-text {
-  display: inline-block;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
   font-size: clamp(1.6rem, 8vw, 10rem);
   font-weight: 900;
   text-align: center;
   line-height: 1.5;
+  white-space: nowrap;
 }
 
-.scroll-float .char {
+.scroll-float-char {
   display: inline-block;
+  flex: 0 0 auto;
 }

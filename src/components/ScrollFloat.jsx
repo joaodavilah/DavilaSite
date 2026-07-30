@@ -22,7 +22,7 @@ export default function ScrollFloat({
     const text = typeof children === 'string' ? children : '';
 
     return text.split('').map((char, index) => (
-      <span className="char" key={`${char}-${index}`}>
+      <span className="scroll-float-char" key={`${char}-${index}`}>
         {char === ' ' ? '\u00A0' : char}
       </span>
     ));
@@ -33,7 +33,7 @@ export default function ScrollFloat({
     if (!element) return undefined;
 
     const scroller = scrollContainerRef?.current || window;
-    const charElements = element.querySelectorAll('.char');
+    const charElements = element.querySelectorAll('.scroll-float-char');
 
     const tween = gsap.fromTo(
       charElements,
@@ -58,12 +58,16 @@ export default function ScrollFloat({
           scroller,
           start: scrollStart,
           end: scrollEnd,
-          scrub: true
+          scrub: 0.8,
+          invalidateOnRefresh: true
         }
       }
     );
 
+    const refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+
     return () => {
+      cancelAnimationFrame(refreshFrame);
       tween.scrollTrigger?.kill();
       tween.kill();
     };
@@ -77,8 +81,14 @@ export default function ScrollFloat({
   ]);
 
   return (
-    <h2 ref={containerRef} className={`scroll-float ${containerClassName}`}>
-      <span className={`scroll-float-text ${textClassName}`}>{splitText}</span>
+    <h2
+      ref={containerRef}
+      className={`scroll-float ${containerClassName}`}
+      aria-label={typeof children === 'string' ? children : undefined}
+    >
+      <span className={`scroll-float-text ${textClassName}`} aria-hidden="true">
+        {splitText}
+      </span>
     </h2>
   );
 }

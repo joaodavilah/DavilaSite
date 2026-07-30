@@ -12,8 +12,8 @@ export default function ContactIntro() {
       <ScrollFloat
         animationDuration={1}
         ease="back.inOut(2)"
-        scrollStart="center bottom+=50%"
-        scrollEnd="bottom bottom-=40%"
+        scrollStart="top 88%"
+        scrollEnd="center 52%"
         stagger={0.03}
         containerClassName="contact-intro-float"
         textClassName="contact-intro-text"
