@@ -494,8 +494,9 @@ h4 {
 }
 
 .hero-blur-title {
-  /* Override BlurText's inline flex layout so animated words wrap as centered text. */
-  display: block !important;
+  display: block;
+  margin-inline: auto;
+  text-align: center;
 }
 
 .blur-text-segment {

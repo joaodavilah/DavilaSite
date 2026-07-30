@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { Fragment, useEffect, useRef, useState, useMemo } from 'react';
 
 const buildKeyframes = (from, steps) => {
   const keys = new Set([...Object.keys(from), ...steps.flatMap(s => Object.keys(s))]);
@@ -75,7 +75,7 @@ const BlurText = ({
   );
 
   return (
-    <Tag ref={ref} className={className} style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <Tag ref={ref} className={className}>
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
@@ -87,19 +87,20 @@ const BlurText = ({
         spanTransition.ease = easing;
 
         return (
-          <motion.span
-            className="blur-text-segment"
-            key={index}
-            initial={fromSnapshot}
-            animate={inView ? animateKeyframes : fromSnapshot}
-            transition={spanTransition}
-            onAnimationComplete={
-              index === elements.length - 1 ? onAnimationComplete : undefined
-            }
-          >
-            {segment === ' ' ? '\u00A0' : segment}
-            {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
-          </motion.span>
+          <Fragment key={index}>
+            <motion.span
+              className="blur-text-segment"
+              initial={fromSnapshot}
+              animate={inView ? animateKeyframes : fromSnapshot}
+              transition={spanTransition}
+              onAnimationComplete={
+                index === elements.length - 1 ? onAnimationComplete : undefined
+              }
+            >
+              {segment}
+            </motion.span>
+            {animateBy === 'words' && index < elements.length - 1 ? ' ' : null}
+          </Fragment>
         );
       })}
     </Tag>
