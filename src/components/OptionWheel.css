@@ -44,6 +44,9 @@
     var(--ow-active-color) calc(var(--ow-p, 0) * 100%),
     var(--ow-text-color)
   );
+  transition:
+    color 240ms ease,
+    text-shadow 240ms ease;
 }
 
 .option-wheel--right .option-wheel__item {
@@ -55,4 +58,23 @@
 .option-wheel__item--selected {
   z-index: 2;
   font-weight: 500;
+  color: var(--ow-active-color);
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--ow-active-color) 48%, transparent),
+    0 0 42px color-mix(in srgb, var(--ow-active-color) 18%, transparent);
+}
+
+.option-wheel__item--selected::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ow-active-color);
+  box-shadow:
+    0 0 10px var(--ow-active-color),
+    0 0 24px color-mix(in srgb, var(--ow-active-color) 58%, transparent);
+  transform: translateY(-50%);
 }

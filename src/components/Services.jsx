@@ -60,7 +60,7 @@ export default function Services() {
               defaultSelected={2}
               onChange={index => setSelectedIndex(index)}
               textColor="#696772"
-              activeColor="#ffffff"
+              activeColor="#67d5cf"
               side="left"
               fontSize={2.15}
               spacing={1.48}

@@ -1,0 +1,61 @@
+.cursor-follower {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.cursor-follower__dot,
+.cursor-follower__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform;
+  transition:
+    width 280ms var(--ease),
+    height 280ms var(--ease),
+    opacity 180ms ease,
+    border-color 280ms ease,
+    background-color 280ms ease;
+}
+
+.cursor-follower__dot {
+  width: 7px;
+  height: 7px;
+  background: #dffdfa;
+  box-shadow: 0 0 12px rgba(103, 213, 207, 0.72);
+}
+
+.cursor-follower__ring {
+  width: 29px;
+  height: 29px;
+  border: 1px solid rgba(103, 213, 207, 0.72);
+  background: rgba(103, 213, 207, 0.025);
+}
+
+.cursor-follower__dot.is-visible,
+.cursor-follower__ring.is-visible {
+  opacity: 1;
+}
+
+.cursor-follower__ring.is-hovering {
+  width: 45px;
+  height: 45px;
+  border-color: rgba(223, 253, 250, 0.88);
+  background: rgba(103, 213, 207, 0.08);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-follower-enabled,
+  .cursor-follower-enabled * {
+    cursor: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-follower {
+    display: none;
+  }
+}
