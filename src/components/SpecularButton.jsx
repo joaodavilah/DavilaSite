@@ -63,6 +63,7 @@ void main() {
 `;
 
 const SpecularButton = ({
+  as: Component = 'button',
   children = 'Get Started',
   size = 'lg',
   radius = 18,
@@ -211,11 +212,12 @@ const SpecularButton = ({
     };
   }, []);
 
+  const nativeButtonProps = Component === 'button' ? { type, disabled } : {};
+
   return (
-    <button
+    <Component
       ref={btnRef}
-      type={type}
-      disabled={disabled}
+      {...nativeButtonProps}
       onClick={onClick}
       className={`specular-button specular-button--${size}${className ? ` ${className}` : ''}`}
       style={{
@@ -228,7 +230,7 @@ const SpecularButton = ({
     >
       <span ref={fxRef} className="specular-button__fx" aria-hidden="true" />
       <span className="specular-button__label">{children}</span>
-    </button>
+    </Component>
   );
 };
 

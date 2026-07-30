@@ -28,10 +28,6 @@
   text-wrap: balance;
 }
 
-.impact-statement-highlight {
-  color: #67d5cf;
-}
-
 .impact-statement-line {
   width: 100%;
   display: block;
@@ -42,6 +38,40 @@
   text-align: inherit;
   overflow: visible;
   will-change: transform, opacity;
+}
+
+.impact-statement-line.impact-statement-highlight {
+  color: #67d5cf;
+}
+
+.impact-statement-line-content {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 0.2em;
+}
+
+.impact-rotating-word {
+  display: inline-grid;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.impact-rotating-word-value,
+.impact-rotating-word-measure {
+  grid-area: 1 / 1;
+}
+
+.impact-rotating-word-value {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.impact-rotating-word-measure {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @media (max-width: 720px) {

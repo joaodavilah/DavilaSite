@@ -669,47 +669,43 @@ h4 {
 }
 
 .pillars {
-  grid-column: 1 / 2;
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  width: 100%;
-  margin-top: 8px;
+  gap: 12px;
+  width: min(100%, 720px);
+  margin-top: clamp(12px, 2vw, 24px);
+  justify-self: center;
 }
 
-.pillar-reveal,
-.pillar-reveal .scroll-reveal-text,
-.pillar-reveal .scroll-reveal-node {
-  min-width: 0;
+.specular-button.pillar-card {
+  display: flex;
   width: 100%;
-  height: 100%;
+  min-height: 54px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  cursor: default;
+  text-align: center;
 }
 
-.pillar-card {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
+.specular-button.pillar-card:active {
+  transform: none;
 }
 
-.pillar-card .inner-content {
-  min-height: 46px;
-  height: 100%;
+.pillar-card .specular-button__label {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 9px;
-  border-radius: 12px;
-  text-align: center;
 }
 
 .pillar-name {
   font-family: var(--font-display);
-  font-size: clamp(9px, 0.68vw, 11px);
-  font-weight: 400;
+  font-size: clamp(12px, 0.85vw, 14px);
+  font-weight: 500;
   color: var(--paper);
   text-transform: uppercase;
-  letter-spacing: 0.012em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
@@ -1156,13 +1152,13 @@ h4 {
     max-width: 100%;
   }
 
-  .pillar-card .inner-content {
-    min-height: 44px;
-    padding: 9px 10px;
+  .specular-button.pillar-card {
+    min-height: 50px;
+    padding: 11px 12px;
   }
 
   .pillar-name {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .about-title {
@@ -1282,26 +1278,6 @@ main,
 
 .nav-split-text {
   line-height: 1.2;
-}
-
-/* Keep the previous shiny treatment on the four pillar labels. */
-.pillar-shiny-split {
-  overflow: visible !important;
-}
-
-.pillar-shiny-split .split-char {
-  color: transparent;
-  background-image: linear-gradient(120deg, #aeb4bd 0%, #aeb4bd 35%, #ffffff 50%, #aeb4bd 65%, #aeb4bd 100%);
-  background-size: 220% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: pillar-shine 2.2s linear infinite;
-}
-
-@keyframes pillar-shine {
-  from { background-position: 150% center; }
-  to { background-position: -50% center; }
 }
 
 /* The old general scroll-reveal is no longer used: each text now owns its SplitText trigger. */

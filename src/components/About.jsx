@@ -1,4 +1,4 @@
-import StarBorder from './StarBorder';
+import SpecularButton from './SpecularButton';
 import SplitText from './SplitText';
 import GradientText from './GradientText';
 
@@ -95,29 +95,30 @@ export default function About() {
         </div>
 
         <div className="pillars" aria-label="Pilares da Davila">
-          {pillars.map((name, index) => (
-            <StarBorder
+          {pillars.map(name => (
+            <SpecularButton
               key={name}
               as="div"
-              className="pillar-card"
-              color="#4f8db8"
-              speed={`${4.4 + index * 0.35}s`}
+              size="sm"
+              radius={14}
+              tint="#ffffff"
+              tintOpacity={0}
+              blur={0}
+              textColor="#f5f5f5"
+              lineColor="#98a1da"
+              baseColor="#525252"
+              intensity={1}
+              shineSize={10}
+              shineFade={40}
               thickness={1}
+              speed={0.35}
+              followMouse
+              proximity={250}
+              autoAnimate={false}
+              className="pillar-card"
             >
-              <SplitText
-                text={name}
-                tag="span"
-                className="pillar-name pillar-shiny-split"
-                splitType="chars"
-                delay={28}
-                duration={0.55}
-                threshold={0.1}
-                rootMargin="-30px"
-                textAlign="center"
-                from={{ opacity: 0, y: 12 }}
-                to={{ opacity: 1, y: 0 }}
-              />
-            </StarBorder>
+              <span className="pillar-name">{name}</span>
+            </SpecularButton>
           ))}
         </div>
       </div>
