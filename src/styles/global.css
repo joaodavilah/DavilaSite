@@ -126,6 +126,14 @@ button {
   cursor: pointer;
 }
 
+@media (pointer: fine) {
+  html,
+  body,
+  body * {
+    cursor: none !important;
+  }
+}
+
 /* ---------- Focus states ---------- */
 a:focus-visible,
 button:focus-visible,
