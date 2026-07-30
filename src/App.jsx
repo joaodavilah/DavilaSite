@@ -6,7 +6,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CursorFollower from './components/CursorFollower';
 import SectionNavigator from './components/SectionNavigator';
-import ContactIntro from './components/ContactIntro';
 import ImpactStatement from './components/ImpactStatement';
 
 export default function App() {
@@ -20,7 +19,6 @@ export default function App() {
         <About />
         <ImpactStatement />
         <Services />
-        <ContactIntro />
         <Contact />
       </main>
       <Footer />
