@@ -5,6 +5,7 @@ export const Component = () => {
 
   const dotPosition = useRef({ x: 0, y: 0 });
   const borderDotPosition = useRef({ x: 0, y: 0 });
+  const hasMoved = useRef(false);
 
   const [renderPos, setRenderPos] = useState({
     dot: { x: 0, y: 0 },
@@ -12,12 +13,18 @@ export const Component = () => {
   });
   const [isHovering, setIsHovering] = useState(false);
 
-  const DOT_SMOOTHNESS = 0.2;
-  const BORDER_DOT_SMOOTHNESS = 0.1;
+  const DOT_SMOOTHNESS = 0.65;
+  const BORDER_DOT_SMOOTHNESS = 0.25;
 
   useEffect(() => {
     const handleMouseMove = e => {
       mousePosition.current = { x: e.clientX, y: e.clientY };
+
+      if (!hasMoved.current) {
+        hasMoved.current = true;
+        dotPosition.current = { ...mousePosition.current };
+        borderDotPosition.current = { ...mousePosition.current };
+      }
     };
 
     const handleMouseEnter = () => setIsHovering(true);
@@ -32,6 +39,8 @@ export const Component = () => {
       element.addEventListener('mouseenter', handleMouseEnter);
       element.addEventListener('mouseleave', handleMouseLeave);
     });
+
+    let animationId;
 
     const animate = () => {
       const lerp = (start, end, factor) => {
@@ -68,10 +77,10 @@ export const Component = () => {
         }
       });
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
 
-    const animationId = requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
