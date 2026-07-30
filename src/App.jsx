@@ -4,7 +4,7 @@ import About from './components/About';
 import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import CursorFollower from './components/CursorFollower';
+import { Component as CursorFollower } from './components/ui/cursor-follower';
 import SectionNavigator from './components/SectionNavigator';
 import ImpactStatement from './components/ImpactStatement';
 import useNavigationMotions from './hooks/useNavigationMotions';
