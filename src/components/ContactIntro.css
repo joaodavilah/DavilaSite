@@ -20,14 +20,7 @@
   text-wrap: balance;
   text-shadow: 0 16px 50px rgba(0, 0, 0, 0.24);
   overflow: visible;
-}
-
-.contact-intro-text-inner {
-  font: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  color: inherit;
-  white-space: nowrap;
+  will-change: transform, opacity;
 }
 
 @media (max-width: 720px) {

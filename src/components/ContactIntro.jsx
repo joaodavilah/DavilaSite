@@ -1,4 +1,4 @@
-import ScrollFloat from './ScrollFloat';
+import { motion } from 'motion/react';
 import './ContactIntro.css';
 
 export default function ContactIntro() {
@@ -9,17 +9,15 @@ export default function ContactIntro() {
       data-section="contact-intro"
       aria-label="Entre em contato"
     >
-      <ScrollFloat
-        animationDuration={1}
-        ease="back.inOut(2)"
-        scrollStart="top 85%"
-        scrollEnd="bottom 45%"
-        stagger={0.03}
-        containerClassName="contact-intro-text"
-        textClassName="contact-intro-text-inner"
+      <motion.h2
+        className="contact-intro-text"
+        initial={{ opacity: 0.45, y: 36, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: false, amount: 0.42 }}
+        transition={{ duration: 0.82, ease: [0.22, 1, 0.36, 1] }}
       >
         Entre em contato
-      </ScrollFloat>
+      </motion.h2>
     </section>
   );
 }

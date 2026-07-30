@@ -41,14 +41,7 @@
   color: inherit;
   text-align: inherit;
   overflow: visible;
-}
-
-.impact-statement-line-text {
-  font: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  color: inherit;
-  white-space: nowrap;
+  will-change: transform, opacity;
 }
 
 @media (max-width: 720px) {

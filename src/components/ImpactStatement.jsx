@@ -1,4 +1,4 @@
-import ScrollFloat from './ScrollFloat';
+import { motion } from 'motion/react';
 import './ImpactStatement.css';
 
 export default function ImpactStatement() {
@@ -16,30 +16,24 @@ export default function ImpactStatement() {
           role="heading"
           aria-level="2"
         >
-          <ScrollFloat
-            as="span"
-            animationDuration={1}
-            ease="back.inOut(2)"
-            scrollStart="top 85%"
-            scrollEnd="bottom 45%"
-            stagger={0.03}
-            containerClassName="impact-statement-line"
-            textClassName="impact-statement-line-text"
+          <motion.span
+            className="impact-statement-line"
+            initial={{ opacity: 0.45, y: 36, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
           >
             Transforme sua empresa.
-          </ScrollFloat>
-          <ScrollFloat
-            as="span"
-            animationDuration={1}
-            ease="back.inOut(2)"
-            scrollStart="top 85%"
-            scrollEnd="bottom 45%"
-            stagger={0.03}
-            containerClassName="impact-statement-line impact-statement-highlight"
-            textClassName="impact-statement-line-text"
+          </motion.span>
+          <motion.span
+            className="impact-statement-line impact-statement-highlight"
+            initial={{ opacity: 0.45, y: 36, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.78, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             Eleve seus resultados.
-          </ScrollFloat>
+          </motion.span>
         </div>
       </div>
     </section>
