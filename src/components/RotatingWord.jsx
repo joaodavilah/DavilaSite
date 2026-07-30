@@ -2,6 +2,39 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import './RotatingWord.css';
 
+const CHARACTER_DURATION = 0.2;
+const CHARACTER_STAGGER = 0.01;
+
+const AnimatedWord = ({ word }) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return Array.from(word).map((character, index) => (
+    <motion.span
+      key={`${word}-${index}`}
+      aria-hidden="true"
+      initial={
+        shouldReduceMotion
+          ? false
+          : { opacity: 0, y: 14, filter: 'blur(5px)' }
+      }
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      exit={
+        shouldReduceMotion
+          ? { opacity: 1 }
+          : { opacity: 0, y: -14, filter: 'blur(5px)' }
+      }
+      transition={{
+        duration: shouldReduceMotion ? 0 : CHARACTER_DURATION,
+        delay: shouldReduceMotion ? 0 : index * CHARACTER_STAGGER,
+        ease: 'easeOut'
+      }}
+      style={{ display: 'inline-block' }}
+    >
+      {character}
+    </motion.span>
+  ));
+};
+
 export default function RotatingWord({
   words,
   interval = 5000,
@@ -12,7 +45,6 @@ export default function RotatingWord({
   const rotatingWords = words?.length ? words : [''];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const currentWord = rotatingWords[currentWordIndex];
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -41,25 +73,13 @@ export default function RotatingWord({
         <motion.span
           key={currentWord}
           className="rotating-word-value"
-          initial={
-            shouldReduceMotion
-              ? false
-              : { opacity: 0, y: 15, filter: 'blur(6px)' }
-          }
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={
-            shouldReduceMotion
-              ? { opacity: 1 }
-              : { opacity: 0, y: -15, filter: 'blur(6px)' }
-          }
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.5,
-            ease: 'easeInOut'
-          }}
+          aria-label={`${currentWord}${suffix}`}
         >
           {renderWord
-            ? renderWord(`${currentWord}${suffix}`)
-            : `${currentWord}${suffix}`}
+            ? renderWord(
+                <AnimatedWord word={`${currentWord}${suffix}`} />
+              )
+            : <AnimatedWord word={`${currentWord}${suffix}`} />}
         </motion.span>
       </AnimatePresence>
     </span>
