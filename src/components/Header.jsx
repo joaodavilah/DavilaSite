@@ -60,7 +60,6 @@ export default function Header() {
           onClick={closeMenu}
           initial={{ opacity: 0, x: 18 }}
           animate={{ opacity: 1, x: 0 }}
-          whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.3, delay: 0.2 }}
         >
