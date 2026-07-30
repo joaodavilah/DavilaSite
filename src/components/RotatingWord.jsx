@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import './RotatingWord.css';
 
 export default function RotatingWord({
@@ -9,27 +9,23 @@ export default function RotatingWord({
   className = '',
   renderWord
 }) {
-  const availableWords = words?.length ? words : [''];
-  const [wordIndex, setWordIndex] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
-  const currentWord = availableWords[wordIndex % availableWords.length];
+  const rotatingWords = words?.length ? words : [''];
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const currentWord = rotatingWords[currentWordIndex];
 
   useEffect(() => {
-    if (shouldReduceMotion || availableWords.length < 2) {
-      setWordIndex(0);
-      return undefined;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setWordIndex(currentIndex => (currentIndex + 1) % availableWords.length);
+    const intervalId = setInterval(() => {
+      setCurrentWordIndex(currentIndex =>
+        (currentIndex + 1) % rotatingWords.length
+      );
     }, interval);
 
-    return () => window.clearInterval(intervalId);
-  }, [availableWords.length, interval, shouldReduceMotion]);
+    return () => clearInterval(intervalId);
+  }, [interval, rotatingWords.length]);
 
   return (
     <span className={`rotating-word${className ? ` ${className}` : ''}`}>
-      {availableWords.map((word, index) => (
+      {rotatingWords.map((word, index) => (
         <span
           className="rotating-word-measure"
           aria-hidden="true"
@@ -44,18 +40,10 @@ export default function RotatingWord({
         <motion.span
           key={currentWord}
           className="rotating-word-value"
-          initial={
-            shouldReduceMotion
-              ? false
-              : { opacity: 0, y: 15, filter: 'blur(6px)' }
-          }
+          initial={{ opacity: 0, y: 15, filter: 'blur(6px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={
-            shouldReduceMotion
-              ? undefined
-              : { opacity: 0, y: -15, filter: 'blur(6px)' }
-          }
-          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ opacity: 0, y: -15, filter: 'blur(6px)' }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
           {renderWord
             ? renderWord(`${currentWord}${suffix}`)

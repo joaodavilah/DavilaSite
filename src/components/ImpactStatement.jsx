@@ -27,7 +27,7 @@ export default function ImpactStatement() {
           className="impact-statement-title"
           role="heading"
           aria-level="2"
-          aria-label="Transforme sua empresa. Torne-a mais estratégica."
+          aria-label="Transforme sua empresa. Torne-a mais, com uma palavra final alternada."
         >
           <motion.span
             className="impact-statement-line"
