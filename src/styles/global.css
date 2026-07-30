@@ -523,7 +523,7 @@ h4 {
 }
 
 .hero-blur-title {
-  display: block;
+  justify-content: center;
   margin-inline: auto;
   text-align: center;
 }

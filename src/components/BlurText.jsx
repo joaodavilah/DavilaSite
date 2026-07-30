@@ -1,12 +1,15 @@
-import { motion, useReducedMotion } from 'motion/react';
-import { Fragment, useEffect, useRef, useState, useMemo } from 'react';
+import { motion } from 'motion/react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 
 const buildKeyframes = (from, steps) => {
-  const keys = new Set([...Object.keys(from), ...steps.flatMap(s => Object.keys(s))]);
+  const keys = new Set([
+    ...Object.keys(from),
+    ...steps.flatMap(step => Object.keys(step))
+  ]);
 
   const keyframes = {};
-  keys.forEach(k => {
-    keyframes[k] = [from[k], ...steps.map(s => s[k])];
+  keys.forEach(key => {
+    keyframes[key] = [from[key], ...steps.map(step => step[key])];
   });
   return keyframes;
 };
@@ -29,13 +32,15 @@ const BlurText = ({
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!ref.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.unobserve(ref.current);
+        }
       },
       { threshold, rootMargin }
     );
@@ -65,60 +70,45 @@ const BlurText = ({
 
   const fromSnapshot = animationFrom ?? defaultFrom;
   const toSnapshots = animationTo ?? defaultTo;
-  const motionFrom = shouldReduceMotion
-    ? {
-        filter: 'blur(2px)',
-        opacity: 0,
-        y: direction === 'top' ? -10 : 10
-      }
-    : fromSnapshot;
-  const motionTo = shouldReduceMotion
-    ? [
-        {
-          filter: 'blur(0px)',
-          opacity: 1,
-          y: 0
-        }
-      ]
-    : toSnapshots;
 
-  const stepCount = motionTo.length + 1;
-  const totalDuration = shouldReduceMotion
-    ? 0.24
-    : stepDuration * (stepCount - 1);
-  const times = Array.from({ length: stepCount }, (_, i) =>
-    stepCount === 1 ? 0 : i / (stepCount - 1)
+  const stepCount = toSnapshots.length + 1;
+  const totalDuration = stepDuration * (stepCount - 1);
+  const times = Array.from({ length: stepCount }, (_, index) =>
+    stepCount === 1 ? 0 : index / (stepCount - 1)
   );
 
   return (
-    <Tag ref={ref} className={className}>
+    <Tag
+      ref={ref}
+      className={className}
+      style={{ display: 'flex', flexWrap: 'wrap' }}
+    >
       {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(motionFrom, motionTo);
+        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
         const spanTransition = {
           duration: totalDuration,
           times,
-          delay: shouldReduceMotion
-            ? index * 0.035
-            : (index * delay) / 1000
+          delay: (index * delay) / 1000
         };
         spanTransition.ease = easing;
 
         return (
-          <Fragment key={index}>
-            <motion.span
-              className="blur-text-segment"
-              initial={motionFrom}
-              animate={inView ? animateKeyframes : motionFrom}
-              transition={spanTransition}
-              onAnimationComplete={
-                index === elements.length - 1 ? onAnimationComplete : undefined
-              }
-            >
-              {segment}
-            </motion.span>
-            {animateBy === 'words' && index < elements.length - 1 ? ' ' : null}
-          </Fragment>
+          <motion.span
+            className="blur-text-segment"
+            key={index}
+            initial={fromSnapshot}
+            animate={inView ? animateKeyframes : fromSnapshot}
+            transition={spanTransition}
+            onAnimationComplete={
+              index === elements.length - 1 ? onAnimationComplete : undefined
+            }
+          >
+            {segment === ' ' ? '\u00A0' : segment}
+            {animateBy === 'words' &&
+              index < elements.length - 1 &&
+              '\u00A0'}
+          </motion.span>
         );
       })}
     </Tag>
