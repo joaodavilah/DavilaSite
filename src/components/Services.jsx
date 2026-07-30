@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import OptionWheel from './OptionWheel';
 import SplitText from './SplitText';
-import SpotlightCard from './SpotlightCard';
+import BorderGlow from './BorderGlow';
 
 const services = [
   {
@@ -78,9 +78,18 @@ export default function Services() {
             />
           </div>
 
-          <SpotlightCard
+          <BorderGlow
             className="service-detail"
-            spotlightColor="rgba(103, 213, 207, 0.22)"
+            edgeSensitivity={30}
+            glowColor="177 55 64"
+            backgroundColor="#0d0b12"
+            borderRadius={28}
+            glowRadius={40}
+            glowIntensity={0.9}
+            coneSpread={25}
+            animated={false}
+            colors={['#214d6d', '#51a7a3', '#38bdf8']}
+            fillOpacity={0.34}
             aria-live="polite"
           >
             <AnimatePresence mode="wait">
@@ -108,7 +117,7 @@ export default function Services() {
                 />
               </motion.div>
             </AnimatePresence>
-          </SpotlightCard>
+          </BorderGlow>
         </div>
       </div>
     </section>

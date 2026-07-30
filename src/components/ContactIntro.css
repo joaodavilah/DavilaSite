@@ -1,0 +1,37 @@
+.contact-intro {
+  min-height: clamp(430px, 68svh, 760px);
+  display: grid;
+  place-items: center;
+  padding: clamp(80px, 10vw, 150px) var(--gutter);
+  color: var(--paper);
+  background:
+    radial-gradient(circle at 50% 52%, rgba(33, 77, 109, 0.13), transparent 36%),
+    var(--site-bg);
+  overflow: hidden;
+}
+
+.contact-intro-float {
+  width: 100%;
+  text-align: center;
+}
+
+.contact-intro-text {
+  font-family: var(--font-display);
+  font-size: clamp(54px, 10.5vw, 154px);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  color: var(--paper);
+  text-shadow: 0 16px 50px rgba(0, 0, 0, 0.24);
+}
+
+@media (max-width: 720px) {
+  .contact-intro {
+    min-height: 470px;
+  }
+
+  .contact-intro-text {
+    font-size: clamp(48px, 15vw, 78px);
+    line-height: 1.02;
+  }
+}

@@ -6,6 +6,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CursorFollower from './components/CursorFollower';
 import SectionNavigator from './components/SectionNavigator';
+import ContactIntro from './components/ContactIntro';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Hero />
         <About />
         <Services />
+        <ContactIntro />
         <Contact />
       </main>
       <Footer />
