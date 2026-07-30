@@ -14,7 +14,7 @@ export default function ContactIntro() {
         ease="back.inOut(2)"
         scrollStart="top 88%"
         scrollEnd="center 52%"
-        stagger={0.03}
+        stagger={0}
         containerClassName="contact-intro-float"
         textClassName="contact-intro-text"
       >
