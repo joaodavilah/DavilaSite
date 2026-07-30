@@ -47,14 +47,12 @@
   background: rgba(103, 213, 207, 0.08);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .cursor-follower-enabled,
-  .cursor-follower-enabled * {
-    cursor: none !important;
-  }
+.cursor-follower-enabled,
+.cursor-follower-enabled * {
+  cursor: none !important;
 }
 
-@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .cursor-follower {
     display: none;
   }

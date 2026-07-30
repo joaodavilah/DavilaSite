@@ -8,9 +8,8 @@ export default function CursorFollower() {
   const ringRef = useRef(null);
 
   useEffect(() => {
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!finePointer.matches || reducedMotion.matches) return undefined;
+    if (reducedMotion.matches) return undefined;
 
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const dot = { ...mouse };
@@ -18,9 +17,7 @@ export default function CursorFollower() {
     let animationFrame;
     let hasMoved = false;
 
-    document.documentElement.classList.add('cursor-follower-enabled');
-
-    const handlePointerMove = event => {
+    const handleMouseMove = event => {
       mouse.x = event.clientX;
       mouse.y = event.clientY;
 
@@ -30,6 +27,7 @@ export default function CursorFollower() {
         ring.x = mouse.x;
         ring.y = mouse.y;
         hasMoved = true;
+        document.documentElement.classList.add('cursor-follower-enabled');
         dotRef.current?.classList.add('is-visible');
         ringRef.current?.classList.add('is-visible');
       }
@@ -73,7 +71,7 @@ export default function CursorFollower() {
       animationFrame = requestAnimationFrame(animate);
     };
 
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('pointerover', handlePointerOver);
     document.addEventListener('pointerout', handlePointerOut);
     document.documentElement.addEventListener('mouseleave', handleWindowLeave);
@@ -82,7 +80,7 @@ export default function CursorFollower() {
 
     return () => {
       document.documentElement.classList.remove('cursor-follower-enabled');
-      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('pointerover', handlePointerOver);
       document.removeEventListener('pointerout', handlePointerOut);
       document.documentElement.removeEventListener('mouseleave', handleWindowLeave);
