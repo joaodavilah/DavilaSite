@@ -31,19 +31,7 @@ export default function About() {
               showBorder={false}
               className="about-gradient-highlight"
             >
-              <SplitText
-                text="voos maiores"
-                tag="span"
-                className="about-gradient-split"
-                splitType="chars"
-                delay={38}
-                duration={0.7}
-                threshold={0.12}
-                rootMargin="-40px"
-                textAlign="left"
-                from={{ opacity: 0, y: 28 }}
-                to={{ opacity: 1, y: 0 }}
-              />
+              voos maiores
             </GradientText>
 
             <SplitText
