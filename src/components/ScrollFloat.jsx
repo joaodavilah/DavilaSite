@@ -50,17 +50,22 @@ export default function ScrollFloat({
       {
         duration: animationDuration,
         ease,
+        immediateRender: false,
         opacity: 1,
         yPercent: 0,
         scaleY: 1,
         scaleX: 1,
         stagger,
+        onComplete: () => {
+          gsap.set(characters, { clearProps: 'willChange' });
+        },
         scrollTrigger: {
           trigger: element,
           scroller,
           start: scrollStart,
           end: scrollEnd,
-          scrub: true,
+          toggleActions: 'play none none none',
+          once: true,
           invalidateOnRefresh: true
         }
       }

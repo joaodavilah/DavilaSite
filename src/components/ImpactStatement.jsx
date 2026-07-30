@@ -20,8 +20,8 @@ export default function ImpactStatement() {
             as="span"
             animationDuration={1}
             ease="back.inOut(2)"
-            scrollStart="center bottom+=50%"
-            scrollEnd="bottom bottom-=40%"
+            scrollStart="top 85%"
+            scrollEnd="bottom 45%"
             stagger={0.03}
             containerClassName="impact-statement-line"
             textClassName="impact-statement-line-text"
@@ -32,8 +32,8 @@ export default function ImpactStatement() {
             as="span"
             animationDuration={1}
             ease="back.inOut(2)"
-            scrollStart="center bottom+=50%"
-            scrollEnd="bottom bottom-=40%"
+            scrollStart="top 85%"
+            scrollEnd="bottom 45%"
             stagger={0.03}
             containerClassName="impact-statement-line impact-statement-highlight"
             textClassName="impact-statement-line-text"
