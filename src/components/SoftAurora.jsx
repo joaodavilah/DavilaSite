@@ -222,13 +222,9 @@ export default function SoftAurora({
 
     const mesh = new Mesh(gl, { geometry, program });
     container.appendChild(gl.canvas);
-    const shouldReduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-
     if (enableMouseInteraction) {
-      gl.canvas.addEventListener('mousemove', handleMouseMove);
-      gl.canvas.addEventListener('mouseleave', handleMouseLeave);
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     }
 
     let animationFrameId;
@@ -249,18 +245,14 @@ export default function SoftAurora({
 
       renderer.render({ scene: mesh });
     }
-    if (shouldReduceMotion) {
-      renderer.render({ scene: mesh });
-    } else {
-      animationFrameId = requestAnimationFrame(update);
-    }
+    animationFrameId = requestAnimationFrame(update);
 
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
       if (enableMouseInteraction) {
-        gl.canvas.removeEventListener('mousemove', handleMouseMove);
-        gl.canvas.removeEventListener('mouseleave', handleMouseLeave);
+        window.removeEventListener('mousemove', handleMouseMove);
+        document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       }
       if (gl.canvas.parentNode === container) {
         container.removeChild(gl.canvas);
