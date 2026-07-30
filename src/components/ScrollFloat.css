@@ -6,10 +6,7 @@
 }
 
 .scroll-float-text {
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
+  display: inline-block;
   font-size: clamp(1.6rem, 8vw, 10rem);
   font-weight: 900;
   text-align: center;
@@ -19,5 +16,4 @@
 
 .scroll-float-char {
   display: inline-block;
-  flex: 0 0 auto;
 }
