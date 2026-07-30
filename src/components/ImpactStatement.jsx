@@ -1,3 +1,4 @@
+import ScrollFloat from './ScrollFloat';
 import './ImpactStatement.css';
 
 export default function ImpactStatement() {
@@ -9,10 +10,37 @@ export default function ImpactStatement() {
       aria-labelledby="impact-statement-title"
     >
       <div className="container impact-statement-inner">
-        <h2 id="impact-statement-title" className="impact-statement-title">
-          <span>Transforme sua empresa.</span>
-          <span className="impact-statement-highlight">Eleve seus resultados.</span>
-        </h2>
+        <div
+          id="impact-statement-title"
+          className="impact-statement-title"
+          role="heading"
+          aria-level="2"
+        >
+          <ScrollFloat
+            as="span"
+            animationDuration={1}
+            ease="back.inOut(2)"
+            scrollStart="center bottom+=50%"
+            scrollEnd="bottom bottom-=40%"
+            stagger={0.03}
+            containerClassName="impact-statement-line"
+            textClassName="impact-statement-line-text"
+          >
+            Transforme sua empresa.
+          </ScrollFloat>
+          <ScrollFloat
+            as="span"
+            animationDuration={1}
+            ease="back.inOut(2)"
+            scrollStart="center bottom+=50%"
+            scrollEnd="bottom bottom-=40%"
+            stagger={0.03}
+            containerClassName="impact-statement-line impact-statement-highlight"
+            textClassName="impact-statement-line-text"
+          >
+            Eleve seus resultados.
+          </ScrollFloat>
+        </div>
       </div>
     </section>
   );
