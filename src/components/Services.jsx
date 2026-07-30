@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import OptionWheel from './OptionWheel';
 import SplitText from './SplitText';
+import SpotlightCard from './SpotlightCard';
 
 const services = [
   {
@@ -77,7 +78,11 @@ export default function Services() {
             />
           </div>
 
-          <div className="service-detail" aria-live="polite">
+          <SpotlightCard
+            className="service-detail"
+            spotlightColor="rgba(103, 213, 207, 0.22)"
+            aria-live="polite"
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={selectedService.title}
@@ -103,7 +108,7 @@ export default function Services() {
                 />
               </motion.div>
             </AnimatePresence>
-          </div>
+          </SpotlightCard>
         </div>
       </div>
     </section>
