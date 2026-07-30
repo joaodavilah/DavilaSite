@@ -18,6 +18,7 @@
   width: 8px;
   height: 8px;
   background: #ffffff;
+  opacity: 0;
 }
 
 .cursor-follower__ring {
