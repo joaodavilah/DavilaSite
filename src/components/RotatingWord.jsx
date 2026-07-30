@@ -26,12 +26,12 @@ const AnimatedWord = ({ word }) => {
       variants={{
         initial: {
           opacity: 0,
-          y: offset,
+          top: offset,
           filter: `blur(${blur}px)`
         },
         animate: {
           opacity: 1,
-          y: 0,
+          top: 0,
           filter: 'blur(0px)',
           transition: {
             duration: enterDuration,
@@ -41,7 +41,7 @@ const AnimatedWord = ({ word }) => {
         },
         exit: {
           opacity: 0,
-          y: -offset,
+          top: -offset,
           filter: `blur(${blur}px)`,
           transition: {
             duration: exitDuration,
