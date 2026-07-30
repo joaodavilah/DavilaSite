@@ -13,7 +13,7 @@
 
 .rotating-word-value {
   display: inline-block;
-  will-change: transform, opacity, filter;
+  will-change: opacity;
 }
 
 .rotating-word-character {

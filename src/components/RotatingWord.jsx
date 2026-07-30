@@ -10,6 +10,11 @@ import './RotatingWord.css';
 
 gsap.registerPlugin(GSAPSplitText);
 
+const SPLIT_OFFSET = 40;
+const SPLIT_DURATION = 0.6;
+const SPLIT_STAGGER = 0.08;
+const EXIT_DURATION = 0.16;
+
 const AnimatedWord = ({ word, renderWord, animateIn }) => {
   const rootRef = useRef(null);
   const splitRef = useRef(null);
@@ -18,11 +23,9 @@ const AnimatedWord = ({ word, renderWord, animateIn }) => {
   const [isPresent, safeToRemove] = usePresence();
   const shouldReduceMotion = useReducedMotion();
 
-  const offset = shouldReduceMotion ? 8 : 24;
-  const enterDuration = shouldReduceMotion ? 0.22 : 0.42;
-  const exitDuration = shouldReduceMotion ? 0.16 : 0.2;
-  const enterStagger = shouldReduceMotion ? 0.01 : 0.028;
-  const exitStagger = shouldReduceMotion ? 0.005 : 0.01;
+  const offset = shouldReduceMotion ? 20 : SPLIT_OFFSET;
+  const enterDuration = shouldReduceMotion ? 0.4 : SPLIT_DURATION;
+  const enterStagger = shouldReduceMotion ? 0.04 : SPLIT_STAGGER;
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -74,30 +77,23 @@ const AnimatedWord = ({ word, renderWord, animateIn }) => {
     const characters = splitRef.current?.chars;
     enterTweenRef.current?.kill();
 
-    if (!characters?.length) {
+    if (!characters?.length || !rootRef.current) {
       safeToRemove?.();
       return undefined;
     }
 
-    exitTweenRef.current = gsap.to(characters, {
+    exitTweenRef.current = gsap.to(rootRef.current, {
       opacity: 0,
-      top: -offset,
-      duration: exitDuration,
-      ease: 'power2.in',
-      stagger: {
-        each: exitStagger,
-        from: 'end'
-      },
+      duration: shouldReduceMotion ? 0.1 : EXIT_DURATION,
+      ease: 'power1.out',
       onComplete: safeToRemove
     });
 
     return () => exitTweenRef.current?.kill();
   }, [
-    exitDuration,
-    exitStagger,
     isPresent,
-    offset,
-    safeToRemove
+    safeToRemove,
+    shouldReduceMotion
   ]);
 
   return (
