@@ -718,9 +718,6 @@ h4 {
    ========================================================================== */
 .services {
   background: var(--site-bg);
-  background-image:
-    radial-gradient(circle at 20% 50%, rgba(39, 126, 129, 0.13), transparent 31%),
-    radial-gradient(circle at 78% 50%, rgba(33, 77, 109, 0.11), transparent 38%);
   color: var(--paper);
   padding-block: var(--section-pad);
 }

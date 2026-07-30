@@ -4,9 +4,7 @@
   place-items: center;
   padding: clamp(76px, 9vw, 130px) var(--gutter);
   color: var(--paper);
-  background:
-    radial-gradient(circle at 50% 50%, rgba(33, 77, 109, 0.12), transparent 38%),
-    var(--site-bg);
+  background: var(--site-bg);
 }
 
 .contact-intro-text {
