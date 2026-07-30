@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Fragment, useEffect, useRef, useState, useMemo } from 'react';
 
 const buildKeyframes = (from, steps) => {
@@ -29,21 +29,24 @@ const BlurText = ({
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!ref.current) return;
+    if (shouldReduceMotion) {
+      setInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.unobserve(ref.current);
-        }
+        setInView(entry.isIntersecting);
       },
       { threshold, rootMargin }
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [threshold, rootMargin]);
+  }, [threshold, rootMargin, shouldReduceMotion]);
 
   const defaultFrom = useMemo(
     () =>
@@ -67,6 +70,12 @@ const BlurText = ({
 
   const fromSnapshot = animationFrom ?? defaultFrom;
   const toSnapshots = animationTo ?? defaultTo;
+  const finalSnapshot =
+    toSnapshots[toSnapshots.length - 1] ?? {
+      filter: 'blur(0px)',
+      opacity: 1,
+      y: 0
+    };
 
   const stepCount = toSnapshots.length + 1;
   const totalDuration = stepDuration * (stepCount - 1);
@@ -90,9 +99,17 @@ const BlurText = ({
           <Fragment key={index}>
             <motion.span
               className="blur-text-segment"
-              initial={fromSnapshot}
-              animate={inView ? animateKeyframes : fromSnapshot}
-              transition={spanTransition}
+              initial={shouldReduceMotion ? false : fromSnapshot}
+              animate={
+                shouldReduceMotion
+                  ? finalSnapshot
+                  : inView
+                    ? animateKeyframes
+                    : fromSnapshot
+              }
+              transition={
+                shouldReduceMotion ? { duration: 0 } : spanTransition
+              }
               onAnimationComplete={
                 index === elements.length - 1 ? onAnimationComplete : undefined
               }

@@ -20,6 +20,15 @@ export default function CursorFollower() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const motionQuery = window.matchMedia(
+      '(prefers-reduced-motion: reduce), (pointer: coarse)'
+    );
+
+    if (motionQuery.matches) {
+      document.documentElement.classList.remove('cursor-follower-enabled');
+      return;
+    }
+
     let animationId;
 
     const handleMouseMove = event => {

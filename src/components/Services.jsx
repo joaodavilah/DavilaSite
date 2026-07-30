@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import OptionWheel from './OptionWheel';
 import SplitText from './SplitText';
 import BorderGlow from './BorderGlow';
@@ -34,6 +34,7 @@ const services = [
 export default function Services() {
   const [selectedIndex, setSelectedIndex] = useState(2);
   const selectedService = services[selectedIndex];
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section className="services" id="servicos" data-section="services">
@@ -96,10 +97,21 @@ export default function Services() {
               <motion.div
                 key={selectedService.title}
                 className="service-detail-inner"
-                initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+                initial={
+                  shouldReduceMotion
+                    ? false
+                    : { opacity: 0, y: 14, filter: 'blur(6px)' }
+                }
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
-                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                exit={
+                  shouldReduceMotion
+                    ? { opacity: 1 }
+                    : { opacity: 0, y: -10, filter: 'blur(4px)' }
+                }
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.32,
+                  ease: [0.22, 1, 0.36, 1]
+                }}
               >
                 <SplitText
                   key={`split-${selectedService.title}`}

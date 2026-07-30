@@ -4,7 +4,13 @@ import BlurText from './BlurText';
 
 export default function Hero() {
   const scrollToServices = () => {
-    document.getElementById('servicos')?.scrollIntoView({ behavior: 'smooth' });
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    document.getElementById('servicos')?.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth'
+    });
   };
 
   return (

@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import GradientText from './GradientText';
 import RotatingWord from './RotatingWord';
 import './ImpactStatement.css';
@@ -14,6 +14,15 @@ const rotatingWords = [
 ];
 
 export default function ImpactStatement() {
+  const shouldReduceMotion = useReducedMotion();
+  const reducedReveal = shouldReduceMotion
+    ? {
+        initial: false,
+        animate: { opacity: 1, y: 0, scale: 1 },
+        transition: { duration: 0 }
+      }
+    : {};
+
   return (
     <section
       className="impact-statement"
@@ -32,10 +41,23 @@ export default function ImpactStatement() {
           <motion.span
             className="impact-statement-line"
             aria-hidden="true"
-            initial={{ opacity: 0.45, y: 36, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            initial={
+              shouldReduceMotion
+                ? reducedReveal.initial
+                : { opacity: 0.45, y: 36, scale: 0.98 }
+            }
+            animate={reducedReveal.animate}
+            whileInView={
+              shouldReduceMotion
+                ? undefined
+                : { opacity: 1, y: 0, scale: 1 }
+            }
             viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
+            transition={
+              shouldReduceMotion
+                ? reducedReveal.transition
+                : { duration: 0.78, ease: [0.22, 1, 0.36, 1] }
+            }
           >
             Transforme sua empresa.
           </motion.span>
@@ -43,10 +65,27 @@ export default function ImpactStatement() {
           <motion.span
             className="impact-statement-line"
             aria-hidden="true"
-            initial={{ opacity: 0.45, y: 36, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            initial={
+              shouldReduceMotion
+                ? reducedReveal.initial
+                : { opacity: 0.45, y: 36, scale: 0.98 }
+            }
+            animate={reducedReveal.animate}
+            whileInView={
+              shouldReduceMotion
+                ? undefined
+                : { opacity: 1, y: 0, scale: 1 }
+            }
             viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.78, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={
+              shouldReduceMotion
+                ? reducedReveal.transition
+                : {
+                    duration: 0.78,
+                    delay: 0.1,
+                    ease: [0.22, 1, 0.36, 1]
+                  }
+            }
           >
             <span className="impact-statement-line-content">
               <GradientText

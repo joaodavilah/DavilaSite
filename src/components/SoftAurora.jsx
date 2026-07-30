@@ -222,6 +222,9 @@ export default function SoftAurora({
 
     const mesh = new Mesh(gl, { geometry, program });
     container.appendChild(gl.canvas);
+    const shouldReduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
 
     if (enableMouseInteraction) {
       gl.canvas.addEventListener('mousemove', handleMouseMove);
@@ -246,10 +249,14 @@ export default function SoftAurora({
 
       renderer.render({ scene: mesh });
     }
-    animationFrameId = requestAnimationFrame(update);
+    if (shouldReduceMotion) {
+      renderer.render({ scene: mesh });
+    } else {
+      animationFrameId = requestAnimationFrame(update);
+    }
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
       if (enableMouseInteraction) {
         gl.canvas.removeEventListener('mousemove', handleMouseMove);

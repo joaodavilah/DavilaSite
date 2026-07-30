@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import './RotatingWord.css';
 
 export default function RotatingWord({
@@ -12,6 +12,7 @@ export default function RotatingWord({
   const rotatingWords = words?.length ? words : [''];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const currentWord = rotatingWords[currentWordIndex];
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -40,10 +41,21 @@ export default function RotatingWord({
         <motion.span
           key={currentWord}
           className="rotating-word-value"
-          initial={{ opacity: 0, y: 15, filter: 'blur(6px)' }}
+          initial={
+            shouldReduceMotion
+              ? false
+              : { opacity: 0, y: 15, filter: 'blur(6px)' }
+          }
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -15, filter: 'blur(6px)' }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          exit={
+            shouldReduceMotion
+              ? { opacity: 1 }
+              : { opacity: 0, y: -15, filter: 'blur(6px)' }
+          }
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.5,
+            ease: 'easeInOut'
+          }}
         >
           {renderWord
             ? renderWord(`${currentWord}${suffix}`)

@@ -1,9 +1,13 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import SpecularButton from './SpecularButton';
 
 export default function Header() {
+  const shouldReduceMotion = useReducedMotion();
+
   const scrollToContact = () => {
-    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contato')?.scrollIntoView({
+      behavior: shouldReduceMotion ? 'auto' : 'smooth'
+    });
   };
 
   return (
@@ -13,19 +17,24 @@ export default function Header() {
           href="#topo"
           className="logo"
           aria-label="DAVILA — página inicial"
-          initial={{ scale: 0.82, opacity: 0 }}
+          initial={shouldReduceMotion ? false : { scale: 0.82, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          whileHover={{ rotate: 8, scale: 1.05 }}
-          transition={{ duration: 0.3 }}
+          whileHover={
+            shouldReduceMotion ? undefined : { rotate: 8, scale: 1.05 }
+          }
+          transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
         >
           <img src="/assets/images/Vector.png" alt="" className="logo-vector" />
         </motion.a>
 
         <motion.div
           className="header-cta-motion"
-          initial={{ opacity: 0, x: 18 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, x: 18 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.3,
+            delay: shouldReduceMotion ? 0 : 0.2
+          }}
         >
           <SpecularButton
             size="sm"
