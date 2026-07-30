@@ -6,7 +6,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CursorFollower from './components/CursorFollower';
 import SectionNavigator from './components/SectionNavigator';
-import ImpactStatement from './components/ImpactStatement';
 import useNavigationMotions from './hooks/useNavigationMotions';
 
 export default function App() {
@@ -20,7 +19,6 @@ export default function App() {
       <main>
         <Hero />
         <About />
-        <ImpactStatement />
         <Services />
         <Contact />
       </main>

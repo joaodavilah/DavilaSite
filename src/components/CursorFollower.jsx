@@ -1,95 +1,76 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './CursorFollower.css';
-
-const INTERACTIVE_SELECTOR =
-  'a, button, img, input, textarea, select, [role="button"], [role="option"]';
-
-const lerp = (start, end, factor) => start + (end - start) * factor;
 
 export default function CursorFollower() {
   const mousePosition = useRef({ x: 0, y: 0 });
-  const dotPosition = useRef({ x: 0, y: 0 });
-  const borderPosition = useRef({ x: 0, y: 0 });
-  const hasMoved = useRef(false);
 
-  const [renderPosition, setRenderPosition] = useState({
+  const dotPosition = useRef({ x: 0, y: 0 });
+  const borderDotPosition = useRef({ x: 0, y: 0 });
+
+  const [renderPos, setRenderPos] = useState({
     dot: { x: 0, y: 0 },
     border: { x: 0, y: 0 }
   });
   const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+
+  const DOT_SMOOTHNESS = 0.2;
+  const BORDER_DOT_SMOOTHNESS = 0.1;
 
   useEffect(() => {
-    const motionQuery = window.matchMedia(
-      '(prefers-reduced-motion: reduce), (pointer: coarse)'
-    );
-
-    if (motionQuery.matches) {
-      document.documentElement.classList.remove('cursor-follower-enabled');
-      return;
-    }
-
-    let animationId;
-
-    const handleMouseMove = event => {
-      const nextPosition = { x: event.clientX, y: event.clientY };
-      mousePosition.current = nextPosition;
-
-      if (!hasMoved.current) {
-        hasMoved.current = true;
-        dotPosition.current = { ...nextPosition };
-        borderPosition.current = { ...nextPosition };
-        setRenderPosition({ dot: { ...nextPosition }, border: { ...nextPosition } });
-        setIsVisible(true);
-        document.documentElement.classList.add('cursor-follower-enabled');
-      }
+    const handleMouseMove = e => {
+      mousePosition.current = { x: e.clientX, y: e.clientY };
     };
 
     const handleMouseEnter = () => setIsHovering(true);
     const handleMouseLeave = () => setIsHovering(false);
-    const hideCursor = () => setIsVisible(false);
-    const showCursor = () => {
-      if (hasMoved.current) setIsVisible(true);
-    };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.documentElement.addEventListener('mouseleave', hideCursor);
-    document.documentElement.addEventListener('mouseenter', showCursor);
+    document.documentElement.classList.add('cursor-follower-enabled');
+    window.addEventListener('mousemove', handleMouseMove);
 
-    const interactiveElements = document.querySelectorAll(INTERACTIVE_SELECTOR);
+    const interactiveElements = document.querySelectorAll(
+      'a, button, img, input, textarea, select'
+    );
     interactiveElements.forEach(element => {
       element.addEventListener('mouseenter', handleMouseEnter);
       element.addEventListener('mouseleave', handleMouseLeave);
     });
 
+    let animationId;
+
     const animate = () => {
+      const lerp = (start, end, factor) => {
+        return start + (end - start) * factor;
+      };
+
       dotPosition.current.x = lerp(
         dotPosition.current.x,
         mousePosition.current.x,
-        0.2
+        DOT_SMOOTHNESS
       );
       dotPosition.current.y = lerp(
         dotPosition.current.y,
         mousePosition.current.y,
-        0.2
-      );
-      borderPosition.current.x = lerp(
-        borderPosition.current.x,
-        mousePosition.current.x,
-        0.1
-      );
-      borderPosition.current.y = lerp(
-        borderPosition.current.y,
-        mousePosition.current.y,
-        0.1
+        DOT_SMOOTHNESS
       );
 
-      if (hasMoved.current) {
-        setRenderPosition({
-          dot: { ...dotPosition.current },
-          border: { ...borderPosition.current }
-        });
-      }
+      borderDotPosition.current.x = lerp(
+        borderDotPosition.current.x,
+        mousePosition.current.x,
+        BORDER_DOT_SMOOTHNESS
+      );
+      borderDotPosition.current.y = lerp(
+        borderDotPosition.current.y,
+        mousePosition.current.y,
+        BORDER_DOT_SMOOTHNESS
+      );
+
+      setRenderPos({
+        dot: { x: dotPosition.current.x, y: dotPosition.current.y },
+        border: {
+          x: borderDotPosition.current.x,
+          y: borderDotPosition.current.y
+        }
+      });
 
       animationId = requestAnimationFrame(animate);
     };
@@ -99,33 +80,33 @@ export default function CursorFollower() {
     return () => {
       document.documentElement.classList.remove('cursor-follower-enabled');
       window.removeEventListener('mousemove', handleMouseMove);
-      document.documentElement.removeEventListener('mouseleave', hideCursor);
-      document.documentElement.removeEventListener('mouseenter', showCursor);
+
       interactiveElements.forEach(element => {
         element.removeEventListener('mouseenter', handleMouseEnter);
         element.removeEventListener('mouseleave', handleMouseLeave);
       });
+
       cancelAnimationFrame(animationId);
     };
   }, []);
 
+  if (typeof window === 'undefined') return null;
+
   return (
-    <div
-      className={`cursor-follower${isVisible ? ' is-visible' : ''}`}
-      aria-hidden="true"
-    >
-      <span
+    <div className="cursor-follower" aria-hidden="true">
+      <div
         className="cursor-follower__dot"
         style={{
-          left: `${renderPosition.dot.x}px`,
-          top: `${renderPosition.dot.y}px`
+          left: `${renderPos.dot.x}px`,
+          top: `${renderPos.dot.y}px`
         }}
       />
-      <span
+
+      <div
         className={`cursor-follower__ring${isHovering ? ' is-hovering' : ''}`}
         style={{
-          left: `${renderPosition.border.x}px`,
-          top: `${renderPosition.border.y}px`
+          left: `${renderPos.border.x}px`,
+          top: `${renderPos.border.y}px`
         }}
       />
     </div>

@@ -5,7 +5,6 @@ import './SectionNavigator.css';
 const sections = [
   { id: 'hero', label: 'Início' },
   { id: 'sobre', label: 'Sobre' },
-  { id: 'impacto', label: 'Evolução' },
   { id: 'servicos', label: 'Serviços' },
   { id: 'contato', label: 'Contato' }
 ];
