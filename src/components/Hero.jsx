@@ -1,15 +1,32 @@
+import { motion, useReducedMotion } from 'motion/react';
 import SoftAurora from './SoftAurora';
 import SpecularButton from './SpecularButton';
 import BlurText from './BlurText';
 
 export default function Hero() {
-  const scrollToServices = () => {
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+  const shouldReduceMotion = useReducedMotion();
+  const revealProps = delay => ({
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 8 : 22,
+      filter: `blur(${shouldReduceMotion ? 1 : 4}px)`
+    },
+    whileInView: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)'
+    },
+    viewport: { once: false, amount: 0.4 },
+    transition: {
+      duration: shouldReduceMotion ? 0.26 : 0.62,
+      delay: shouldReduceMotion ? Math.min(delay, 0.08) : delay,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  });
 
+  const scrollToServices = () => {
     document.getElementById('servicos')?.scrollIntoView({
-      behavior: reducedMotion ? 'auto' : 'smooth'
+      behavior: shouldReduceMotion ? 'auto' : 'smooth'
     });
   };
 
@@ -48,12 +65,20 @@ export default function Hero() {
             className="hero-title hero-blur-title"
           />
 
-          <p className="hero-subtitle reveal-text" data-animate="fade-up">
+          <motion.p
+            className="hero-subtitle reveal-text"
+            data-animate="fade-up"
+            {...revealProps(0.7)}
+          >
             Desenvolvemos websites, sistemas, aplicativos e soluções em dados —
             unindo estratégia, design e engenharia para empresas que querem evoluir.
-          </p>
+          </motion.p>
 
-          <div className="hero-actions reveal-text" data-animate="fade-up">
+          <motion.div
+            className="hero-actions reveal-text"
+            data-animate="fade-up"
+            {...revealProps(0.92)}
+          >
             <SpecularButton
               size="lg"
               radius={18}
@@ -76,7 +101,7 @@ export default function Hero() {
             >
               Ver soluções
             </SpecularButton>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

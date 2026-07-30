@@ -7,25 +7,21 @@ const CHARACTER_STAGGER = 0.01;
 
 const AnimatedWord = ({ word }) => {
   const shouldReduceMotion = useReducedMotion();
+  const offset = shouldReduceMotion ? 6 : 14;
+  const blur = shouldReduceMotion ? 2 : 5;
+  const duration = shouldReduceMotion ? 0.14 : CHARACTER_DURATION;
+  const stagger = shouldReduceMotion ? 0.004 : CHARACTER_STAGGER;
 
   return Array.from(word).map((character, index) => (
     <motion.span
       key={`${word}-${index}`}
       aria-hidden="true"
-      initial={
-        shouldReduceMotion
-          ? false
-          : { opacity: 0, y: 14, filter: 'blur(5px)' }
-      }
+      initial={{ opacity: 0, y: offset, filter: `blur(${blur}px)` }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      exit={
-        shouldReduceMotion
-          ? { opacity: 1 }
-          : { opacity: 0, y: -14, filter: 'blur(5px)' }
-      }
+      exit={{ opacity: 0, y: -offset, filter: `blur(${blur}px)` }}
       transition={{
-        duration: shouldReduceMotion ? 0 : CHARACTER_DURATION,
-        delay: shouldReduceMotion ? 0 : index * CHARACTER_STAGGER,
+        duration,
+        delay: index * stagger,
         ease: 'easeOut'
       }}
       style={{ display: 'inline-block' }}

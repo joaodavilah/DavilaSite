@@ -99,17 +99,17 @@ export default function Services() {
                 className="service-detail-inner"
                 initial={
                   shouldReduceMotion
-                    ? false
+                    ? { opacity: 0, y: 4, filter: 'blur(1px)' }
                     : { opacity: 0, y: 14, filter: 'blur(6px)' }
                 }
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={
                   shouldReduceMotion
-                    ? { opacity: 1 }
+                    ? { opacity: 0, y: -4, filter: 'blur(1px)' }
                     : { opacity: 0, y: -10, filter: 'blur(4px)' }
                 }
                 transition={{
-                  duration: shouldReduceMotion ? 0 : 0.32,
+                  duration: shouldReduceMotion ? 0.18 : 0.32,
                   ease: [0.22, 1, 0.36, 1]
                 }}
               >

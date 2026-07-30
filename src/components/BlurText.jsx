@@ -33,11 +33,6 @@ const BlurText = ({
 
   useEffect(() => {
     if (!ref.current) return;
-    if (shouldReduceMotion) {
-      setInView(true);
-      return;
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         setInView(entry.isIntersecting);
@@ -46,7 +41,7 @@ const BlurText = ({
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, shouldReduceMotion]);
+  }, [threshold, rootMargin]);
 
   const defaultFrom = useMemo(
     () =>
@@ -70,15 +65,27 @@ const BlurText = ({
 
   const fromSnapshot = animationFrom ?? defaultFrom;
   const toSnapshots = animationTo ?? defaultTo;
-  const finalSnapshot =
-    toSnapshots[toSnapshots.length - 1] ?? {
-      filter: 'blur(0px)',
-      opacity: 1,
-      y: 0
-    };
+  const motionFrom = shouldReduceMotion
+    ? {
+        filter: 'blur(2px)',
+        opacity: 0,
+        y: direction === 'top' ? -10 : 10
+      }
+    : fromSnapshot;
+  const motionTo = shouldReduceMotion
+    ? [
+        {
+          filter: 'blur(0px)',
+          opacity: 1,
+          y: 0
+        }
+      ]
+    : toSnapshots;
 
-  const stepCount = toSnapshots.length + 1;
-  const totalDuration = stepDuration * (stepCount - 1);
+  const stepCount = motionTo.length + 1;
+  const totalDuration = shouldReduceMotion
+    ? 0.24
+    : stepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) =>
     stepCount === 1 ? 0 : i / (stepCount - 1)
   );
@@ -86,12 +93,14 @@ const BlurText = ({
   return (
     <Tag ref={ref} className={className}>
       {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
+        const animateKeyframes = buildKeyframes(motionFrom, motionTo);
 
         const spanTransition = {
           duration: totalDuration,
           times,
-          delay: (index * delay) / 1000
+          delay: shouldReduceMotion
+            ? index * 0.035
+            : (index * delay) / 1000
         };
         spanTransition.ease = easing;
 
@@ -99,17 +108,9 @@ const BlurText = ({
           <Fragment key={index}>
             <motion.span
               className="blur-text-segment"
-              initial={shouldReduceMotion ? false : fromSnapshot}
-              animate={
-                shouldReduceMotion
-                  ? finalSnapshot
-                  : inView
-                    ? animateKeyframes
-                    : fromSnapshot
-              }
-              transition={
-                shouldReduceMotion ? { duration: 0 } : spanTransition
-              }
+              initial={motionFrom}
+              animate={inView ? animateKeyframes : motionFrom}
+              transition={spanTransition}
               onAnimationComplete={
                 index === elements.length - 1 ? onAnimationComplete : undefined
               }

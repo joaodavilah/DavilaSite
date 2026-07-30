@@ -10,6 +10,7 @@ const REVEAL_ACTIONS = 'play none none reverse';
 export default function useNavigationMotions() {
   useLayoutEffect(() => {
     const media = gsap.matchMedia();
+    let disposed = false;
 
     media.add(
       {
@@ -17,24 +18,7 @@ export default function useNavigationMotions() {
         reducedMotion: '(prefers-reduced-motion: reduce)'
       },
       context => {
-        const { fullMotion } = context.conditions;
-        const animatedElements = gsap.utils.toArray(
-          [
-            '.pillars .pillar-card',
-            '.service-detail',
-            '.contact-card',
-            '.contact-cta-panel',
-            '.footer-inner',
-            '.footer-bottom'
-          ].join(', ')
-        );
-
-        if (!fullMotion) {
-          gsap.set(animatedElements, {
-            clearProps: 'opacity,transform,filter,visibility,willChange'
-          });
-          return undefined;
-        }
+        const reducedMotion = Boolean(context.conditions.reducedMotion);
 
         const animationContext = gsap.context(() => {
           const createReveal = ({
@@ -49,14 +33,19 @@ export default function useNavigationMotions() {
           }) => {
             const elements = gsap.utils.toArray(targets);
             if (!elements.length || !document.querySelector(trigger)) return;
+            const revealY = reducedMotion
+              ? Math.sign(y) * Math.min(Math.abs(y), 8)
+              : y;
+            const revealScale = reducedMotion ? 1 : scale;
+            const revealBlur = reducedMotion ? Math.min(blur, 1) : blur;
 
             gsap.fromTo(
               elements,
               {
                 autoAlpha: 0,
-                y,
-                scale,
-                filter: `blur(${blur}px)`,
+                y: revealY,
+                scale: revealScale,
+                filter: `blur(${revealBlur}px)`,
                 willChange: 'transform, opacity, filter'
               },
               {
@@ -64,14 +53,13 @@ export default function useNavigationMotions() {
                 y: 0,
                 scale: 1,
                 filter: 'blur(0px)',
-                duration,
+                duration: reducedMotion ? Math.min(duration, 0.3) : duration,
                 ease: REVEAL_EASE,
-                stagger,
+                stagger: reducedMotion ? Math.min(stagger, 0.04) : stagger,
                 scrollTrigger: {
                   trigger,
                   start,
                   toggleActions: REVEAL_ACTIONS,
-                  fastScrollEnd: true,
                   invalidateOnRefresh: true
                 }
               }
@@ -88,25 +76,25 @@ export default function useNavigationMotions() {
           }) => {
             const elements = gsap.utils.toArray(targets);
             if (!elements.length || !document.querySelector(trigger)) return;
+            const revealBlur = reducedMotion ? Math.min(blur, 1) : blur;
 
             gsap.fromTo(
               elements,
               {
                 autoAlpha: 0,
-                filter: `blur(${blur}px)`,
+                filter: `blur(${revealBlur}px)`,
                 willChange: 'opacity, filter'
               },
               {
                 autoAlpha: 1,
                 filter: 'blur(0px)',
-                duration,
+                duration: reducedMotion ? Math.min(duration, 0.28) : duration,
                 ease: REVEAL_EASE,
-                stagger,
+                stagger: reducedMotion ? Math.min(stagger, 0.04) : stagger,
                 scrollTrigger: {
                   trigger,
                   start,
                   toggleActions: REVEAL_ACTIONS,
-                  fastScrollEnd: true,
                   invalidateOnRefresh: true
                 }
               }
@@ -160,6 +148,13 @@ export default function useNavigationMotions() {
       }
     );
 
-    return () => media.revert();
+    document.fonts?.ready.then(() => {
+      if (!disposed) ScrollTrigger.refresh();
+    });
+
+    return () => {
+      disposed = true;
+      media.revert();
+    };
   }, []);
 }

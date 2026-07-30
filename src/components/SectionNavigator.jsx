@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import './SectionNavigator.css';
 
 const sections = [
@@ -11,6 +12,7 @@ const sections = [
 
 export default function SectionNavigator() {
   const [activeSection, setActiveSection] = useState('hero');
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     let animationFrame;
@@ -58,7 +60,13 @@ export default function SectionNavigator() {
   };
 
   return (
-    <nav className="section-navigator" aria-label="Navegação entre seções">
+    <motion.nav
+      className="section-navigator"
+      aria-label="Navegação entre seções"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: shouldReduceMotion ? 0.16 : 0.38 }}
+    >
       <span className="section-navigator__line" aria-hidden="true" />
       {sections.map(({ id, label }) => {
         const isActive = activeSection === id;
@@ -73,10 +81,28 @@ export default function SectionNavigator() {
             onClick={() => navigateTo(id)}
           >
             <span className="section-navigator__label">{label}</span>
-            <span className="section-navigator__dot" aria-hidden="true" />
+            <motion.span
+              className="section-navigator__dot"
+              aria-hidden="true"
+              animate={
+                isActive
+                  ? {
+                      scale: [
+                        1,
+                        shouldReduceMotion ? 1.1 : 1.32,
+                        1
+                      ]
+                    }
+                  : { scale: 1 }
+              }
+              transition={{
+                duration: shouldReduceMotion ? 0.16 : 0.42,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+            />
           </button>
         );
       })}
-    </nav>
+    </motion.nav>
   );
 }

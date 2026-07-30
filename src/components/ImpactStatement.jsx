@@ -15,13 +15,10 @@ const rotatingWords = [
 
 export default function ImpactStatement() {
   const shouldReduceMotion = useReducedMotion();
-  const reducedReveal = shouldReduceMotion
-    ? {
-        initial: false,
-        animate: { opacity: 1, y: 0, scale: 1 },
-        transition: { duration: 0 }
-      }
-    : {};
+  const revealInitial = shouldReduceMotion
+    ? { opacity: 0.78, y: 8, scale: 1 }
+    : { opacity: 0.45, y: 36, scale: 0.98 };
+  const revealDuration = shouldReduceMotion ? 0.28 : 0.78;
 
   return (
     <section
@@ -41,23 +38,13 @@ export default function ImpactStatement() {
           <motion.span
             className="impact-statement-line"
             aria-hidden="true"
-            initial={
-              shouldReduceMotion
-                ? reducedReveal.initial
-                : { opacity: 0.45, y: 36, scale: 0.98 }
-            }
-            animate={reducedReveal.animate}
-            whileInView={
-              shouldReduceMotion
-                ? undefined
-                : { opacity: 1, y: 0, scale: 1 }
-            }
+            initial={revealInitial}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: false, amount: 0.5 }}
-            transition={
-              shouldReduceMotion
-                ? reducedReveal.transition
-                : { duration: 0.78, ease: [0.22, 1, 0.36, 1] }
-            }
+            transition={{
+              duration: revealDuration,
+              ease: [0.22, 1, 0.36, 1]
+            }}
           >
             Transforme sua empresa.
           </motion.span>
@@ -65,27 +52,14 @@ export default function ImpactStatement() {
           <motion.span
             className="impact-statement-line"
             aria-hidden="true"
-            initial={
-              shouldReduceMotion
-                ? reducedReveal.initial
-                : { opacity: 0.45, y: 36, scale: 0.98 }
-            }
-            animate={reducedReveal.animate}
-            whileInView={
-              shouldReduceMotion
-                ? undefined
-                : { opacity: 1, y: 0, scale: 1 }
-            }
+            initial={revealInitial}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: false, amount: 0.5 }}
-            transition={
-              shouldReduceMotion
-                ? reducedReveal.transition
-                : {
-                    duration: 0.78,
-                    delay: 0.1,
-                    ease: [0.22, 1, 0.36, 1]
-                  }
-            }
+            transition={{
+              duration: revealDuration,
+              delay: shouldReduceMotion ? 0.04 : 0.1,
+              ease: [0.22, 1, 0.36, 1]
+            }}
           >
             <span className="impact-statement-line-content">
               <GradientText

@@ -85,34 +85,27 @@ const SplitText = ({
           const reducedMotion = window.matchMedia(
             '(prefers-reduced-motion: reduce)'
           ).matches;
-
-          if (reducedMotion) {
-            gsap.set(targets, {
-              opacity: 1,
-              y: 0,
-              filter: 'none',
-              clearProps: 'transform,opacity,filter,willChange'
-            });
-            return undefined;
-          }
+          const revealFrom = reducedMotion
+            ? { opacity: 0, y: 8, filter: 'blur(1px)' }
+            : { filter: 'blur(5px)', ...from };
+          const revealTo = reducedMotion
+            ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+            : { filter: 'blur(0px)', ...to };
 
           revealTween = gsap.fromTo(
             targets,
+            revealFrom,
             {
-              filter: 'blur(5px)',
-              ...from
-            },
-            {
-              filter: 'blur(0px)',
-              ...to,
-              duration,
+              ...revealTo,
+              duration: reducedMotion ? Math.min(duration, 0.3) : duration,
               ease,
-              stagger: delay / 1000,
+              stagger: reducedMotion
+                ? Math.min(delay / 1000, 0.025)
+                : delay / 1000,
               scrollTrigger: {
                 trigger: el,
                 start,
                 toggleActions: 'play none none reverse',
-                fastScrollEnd: true,
                 anticipatePin: 0.4,
                 invalidateOnRefresh: true
               },
