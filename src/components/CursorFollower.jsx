@@ -61,16 +61,8 @@ export default function CursorFollower() {
     });
 
     const animate = () => {
-      dotPosition.current.x = lerp(
-        dotPosition.current.x,
-        mousePosition.current.x,
-        0.2
-      );
-      dotPosition.current.y = lerp(
-        dotPosition.current.y,
-        mousePosition.current.y,
-        0.2
-      );
+      dotPosition.current.x = mousePosition.current.x;
+      dotPosition.current.y = mousePosition.current.y;
       borderPosition.current.x = lerp(
         borderPosition.current.x,
         mousePosition.current.x,
