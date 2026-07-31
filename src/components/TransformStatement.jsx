@@ -38,7 +38,7 @@ export default function TransformStatement() {
         </h2>
 
         <SplitText
-          text="Transforme sua empresa"
+          text="Transforme sua empresa com"
           tag="p"
           className="transform-statement__lead"
           splitType="words"
