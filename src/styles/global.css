@@ -1163,7 +1163,13 @@ h4 {
   }
 
   .site-header.is-past-hero .header-inner {
+    width: 100%;
+    max-width: none;
     height: 54px;
+  }
+
+  .site-header .header-cta-motion {
+    margin-left: auto;
   }
 }
 
