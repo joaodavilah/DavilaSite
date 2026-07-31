@@ -66,7 +66,7 @@ export default function About() {
           />
 
           <SplitText
-            text="Acreditamos que a tecnologia deve gerar oportunidades, otimizar processos e apoiar o crescimento. E que dados, quando bem interpretados, transformam o dia a dia em decisões mais estratégicas."
+            text="A tecnologia deve gerar oportunidades, otimizar processos e apoiar o crescimento. E que dados, quando bem interpretados, transformam o dia a dia em decisões mais estratégicas."
             tag="p"
             className="about-text"
             splitType="words"
