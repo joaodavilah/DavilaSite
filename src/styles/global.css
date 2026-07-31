@@ -743,6 +743,12 @@ h4 {
   color: var(--paper);
 }
 
+@media (min-width: 901px) {
+  .services-head {
+    margin-bottom: clamp(64px, 6vw, 96px);
+  }
+}
+
 .services-explorer {
   display: grid;
   grid-template-columns: minmax(360px, 0.88fr) minmax(0, 1.12fr);
