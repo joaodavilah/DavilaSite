@@ -22,6 +22,7 @@ const SplitText = ({
   onLetterAnimationComplete
 }) => {
   const ref = useRef(null);
+  const animationCompletedRef = useRef(false);
   const onCompleteRef = useRef(onLetterAnimationComplete);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -40,8 +41,8 @@ const SplitText = ({
   useGSAP(
     () => {
       if (!ref.current || !text || !fontsLoaded) return;
+      if (animationCompletedRef.current) return;
       const el = ref.current;
-      let revealTween;
 
       if (el._rbsplitInstance) {
         try {
@@ -82,49 +83,39 @@ const SplitText = ({
         reduceWhiteSpace: false,
         onSplit: self => {
           assignTargets(self);
-          const reducedMotion = window.matchMedia(
-            '(prefers-reduced-motion: reduce)'
-          ).matches;
-          const revealFrom = reducedMotion
-            ? { opacity: 0, y: 8, filter: 'blur(1px)' }
-            : { filter: 'blur(5px)', ...from };
-          const revealTo = reducedMotion
-            ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-            : { filter: 'blur(0px)', ...to };
-
-          revealTween = gsap.fromTo(
+          const tween = gsap.fromTo(
             targets,
-            revealFrom,
+            { ...from },
             {
-              ...revealTo,
-              duration: reducedMotion ? Math.min(duration, 0.3) : duration,
+              ...to,
+              duration,
               ease,
-              stagger: reducedMotion
-                ? Math.min(delay / 1000, 0.025)
-                : delay / 1000,
+              stagger: delay / 1000,
               scrollTrigger: {
                 trigger: el,
                 start,
-                toggleActions: 'play none none reverse',
-                anticipatePin: 0.4,
-                invalidateOnRefresh: true
+                once: true,
+                fastScrollEnd: true,
+                anticipatePin: 0.4
               },
               onComplete: () => {
+                animationCompletedRef.current = true;
                 onCompleteRef.current?.();
               },
               willChange: 'transform, opacity',
               force3D: true
             }
           );
-          return revealTween;
+          return tween;
         }
       });
 
       el._rbsplitInstance = splitInstance;
 
       return () => {
-        revealTween?.scrollTrigger?.kill();
-        revealTween?.kill();
+        ScrollTrigger.getAll().forEach(scrollTrigger => {
+          if (scrollTrigger.trigger === el) scrollTrigger.kill();
+        });
         try {
           splitInstance.revert();
         } catch (_) {
