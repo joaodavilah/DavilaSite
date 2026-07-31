@@ -31,3 +31,14 @@
 .cursor-follower-enabled * {
   cursor: none !important;
 }
+
+@media (pointer: coarse) {
+  .cursor-follower {
+    display: none;
+  }
+
+  .cursor-follower-enabled,
+  .cursor-follower-enabled * {
+    cursor: auto !important;
+  }
+}

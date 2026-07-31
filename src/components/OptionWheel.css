@@ -78,3 +78,26 @@
     0 0 24px color-mix(in srgb, var(--ow-active-color) 58%, transparent);
   transform: translateY(-50%);
 }
+
+@media (max-width: 720px) {
+  .option-wheel {
+    --ow-inset: 28px !important;
+  }
+
+  .option-wheel__item {
+    max-width: calc(100vw - 76px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 430px) {
+  .option-wheel {
+    --ow-inset: 22px !important;
+  }
+
+  .option-wheel__item {
+    max-width: calc(100vw - 56px);
+    font-size: clamp(1.05rem, 5.2vw, 1.4rem) !important;
+  }
+}
