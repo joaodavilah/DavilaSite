@@ -86,8 +86,9 @@
 
   .option-wheel__item {
     max-width: calc(100vw - 76px);
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
+    line-height: 1.2;
+    padding-block: 0.1em 0.2em;
   }
 
 }
@@ -100,6 +101,8 @@
   .option-wheel__item {
     max-width: calc(100vw - 56px);
     font-size: clamp(1.05rem, 5.2vw, 1.4rem) !important;
+    line-height: 1.24;
+    padding-block: 0.12em 0.22em;
   }
 }
 
