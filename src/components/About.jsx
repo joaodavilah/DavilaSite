@@ -52,7 +52,7 @@ export default function About() {
 
         <div className="about-body">
           <SplitText
-            text="Transformamos ideias em soluções digitais modernas, funcionais e alinhadas às necessidades de cada negócio — sites e sistemas que fortalecem a presença da empresa e aproximam ela dos seus clientes."
+            text="Transformamos ideias em soluções digitais modernas, funcionais e alinhadas às necessidades de cada negócio. Sites e sistemas que fortalecem a presença da empresa e aproximam ela dos seus clientes."
             tag="p"
             className="about-lead"
             splitType="words"
