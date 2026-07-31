@@ -1606,6 +1606,60 @@ main,
   transform: scale(1.05);
 }
 
+.copy-toast {
+  position: fixed;
+  right: clamp(20px, 3vw, 44px);
+  bottom: clamp(20px, 3vw, 38px);
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid rgba(103, 213, 207, 0.26);
+  border-radius: 999px;
+  color: var(--paper);
+  background: rgba(13, 11, 18, 0.84);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(0.96);
+  transition:
+    opacity 220ms var(--ease),
+    visibility 220ms var(--ease),
+    transform 220ms var(--ease);
+  pointer-events: none;
+}
+
+.copy-toast.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.copy-toast__check {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #082331;
+  background: #67d5cf;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (min-width: 981px) {
+  .contact-copy-btn {
+    width: 46px;
+    height: 46px;
+  }
+}
+
 .contact-cta-panel {
   min-width: 0;
   min-height: 100%;

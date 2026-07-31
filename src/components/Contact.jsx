@@ -35,9 +35,30 @@ const IconWhatsapp = () => (
 export default function Contact() {
   const [copied, setCopied] = useState('');
 
+  const writeToClipboard = async value => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return;
+    }
+
+    const textArea = document.createElement('textarea');
+    textArea.value = value;
+    textArea.setAttribute('readonly', '');
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.select();
+    const copiedSuccessfully = document.execCommand('copy');
+    document.body.removeChild(textArea);
+
+    if (!copiedSuccessfully) {
+      throw new Error('Não foi possível copiar o conteúdo.');
+    }
+  };
+
   const copyValue = async (value, key) => {
     try {
-      await navigator.clipboard.writeText(value);
+      await writeToClipboard(value);
       setCopied(key);
       window.setTimeout(() => setCopied(''), 1600);
     } catch {
@@ -90,6 +111,16 @@ export default function Contact() {
             </a>
           </aside>
         </div>
+      </div>
+
+      <div
+        className={`copy-toast${copied ? ' is-visible' : ''}`}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <span className="copy-toast__check" aria-hidden="true">✓</span>
+        {copied === 'phone' ? 'Telefone copiado!' : 'E-mail copiado!'}
       </div>
     </section>
   );
