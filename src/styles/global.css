@@ -91,7 +91,11 @@ html {
 html,
 body,
 #root {
+  width: 100%;
+  max-width: 100%;
   min-height: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -103,6 +107,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+main,
+main > section,
+.container {
+  min-width: 0;
+  max-width: 100%;
 }
 
 img {
@@ -991,6 +1002,12 @@ h4 {
   .about-body {
     grid-row: auto;
     padding-top: 0;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .about-body .split-parent {
+    width: 100%;
   }
 
   .pillars {
@@ -1023,6 +1040,37 @@ h4 {
 
   .footer-brand {
     grid-column: 1 / -1;
+  }
+
+  .services-explorer {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .services-wheel-shell,
+  .services-option-wheel {
+    width: 100%;
+    min-height: 300px;
+    height: 300px;
+  }
+
+  .service-detail {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .about-head,
+  .about-body,
+  .services-head,
+  .services-explorer {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .about-body .split-parent,
+  .services-head .split-parent,
+  .service-detail .split-parent {
+    width: 100%;
   }
 }
 
@@ -1109,6 +1157,7 @@ h4 {
     font-size: clamp(34px, 9.4vw, 52px);
     line-height: 1.06;
     letter-spacing: -0.04em;
+    overflow-wrap: normal;
   }
 
   .hero-subtitle {
@@ -1186,6 +1235,7 @@ h4 {
 
   .about-grid {
     gap: 42px;
+    width: 100%;
   }
 
   .about-body {
@@ -1199,6 +1249,7 @@ h4 {
   .about-text {
     font-size: 15px;
     line-height: 1.65;
+    max-width: 100%;
   }
 
 
@@ -1258,6 +1309,13 @@ h4 {
     font-size: clamp(32px, 9.2vw, 40px);
   }
 
+  .hero-subtitle {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 2px;
+    text-wrap: pretty;
+  }
+
   .pillars {
     grid-template-columns: 1fr;
   }
@@ -1269,6 +1327,7 @@ h4 {
   .service-detail-description {
     max-width: 100%;
     font-size: 17px;
+    overflow-wrap: break-word;
   }
 }
 
@@ -1334,6 +1393,11 @@ main,
 
 .split-parent {
   max-width: 100%;
+}
+
+.split-parent,
+.split-line {
+  min-width: 0;
 }
 
 .nav-split-text,

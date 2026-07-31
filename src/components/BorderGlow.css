@@ -151,3 +151,13 @@
   overflow: hidden;
   border-radius: inherit;
 }
+
+@media (pointer: coarse) {
+  .border-glow-card {
+    overflow: hidden;
+  }
+
+  .border-glow-card > .edge-light {
+    display: none;
+  }
+}
