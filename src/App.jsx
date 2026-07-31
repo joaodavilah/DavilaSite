@@ -20,8 +20,8 @@ export default function App() {
       <main>
         <Hero />
         <About />
-        <TransformStatement />
         <Services />
+        <TransformStatement />
         <Contact />
       </main>
       <Footer />

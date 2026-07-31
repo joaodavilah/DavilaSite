@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import GradientText from './GradientText';
 import SplitText from './SplitText';
 import './TransformStatement.css';
 
@@ -53,13 +52,7 @@ export default function TransformStatement() {
         />
 
         <div className="transform-statement__word" aria-hidden="true">
-          <GradientText
-            colors={['#214d6d', '#67d5cf', '#2e7fa7']}
-            animationSpeed={4}
-            direction="horizontal"
-            showBorder={false}
-            className="transform-statement__gradient"
-          >
+          <div className="transform-statement__gradient">
             <SplitText
               key={currentWord}
               text={currentWord}
@@ -75,7 +68,7 @@ export default function TransformStatement() {
               from={{ opacity: 0, y: 44 }}
               to={{ opacity: 1, y: 0 }}
             />
-          </GradientText>
+          </div>
         </div>
       </div>
     </section>
