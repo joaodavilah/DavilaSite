@@ -169,6 +169,9 @@ export default function SoftAurora({
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
+    const allowMouseInteraction =
+      enableMouseInteraction &&
+      !window.matchMedia('(pointer: coarse)').matches;
 
     let program;
     let currentMouse = [0.5, 0.5];
@@ -216,13 +219,13 @@ export default function SoftAurora({
         uColorSpeed: { value: colorSpeed },
         uMouse: { value: new Float32Array([0.5, 0.5]) },
         uMouseInfluence: { value: mouseInfluence },
-        uEnableMouse: { value: enableMouseInteraction }
+        uEnableMouse: { value: allowMouseInteraction }
       }
     });
 
     const mesh = new Mesh(gl, { geometry, program });
     container.appendChild(gl.canvas);
-    if (enableMouseInteraction) {
+    if (allowMouseInteraction) {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     }
@@ -233,7 +236,7 @@ export default function SoftAurora({
       animationFrameId = requestAnimationFrame(update);
       program.uniforms.uTime.value = time * 0.001;
 
-      if (enableMouseInteraction) {
+      if (allowMouseInteraction) {
         currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
         currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
         program.uniforms.uMouse.value[0] = currentMouse[0];
@@ -250,7 +253,7 @@ export default function SoftAurora({
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
-      if (enableMouseInteraction) {
+      if (allowMouseInteraction) {
         window.removeEventListener('mousemove', handleMouseMove);
         document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       }

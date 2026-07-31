@@ -1076,6 +1076,29 @@ h4 {
   .service-detail .split-parent {
     width: 100%;
   }
+
+  .site-header {
+    transition:
+      top 240ms var(--ease),
+      padding 240ms var(--ease),
+      background-color 240ms var(--ease),
+      border-color 240ms var(--ease),
+      box-shadow 240ms var(--ease);
+  }
+
+  .site-header.is-past-hero {
+    top: 0;
+    padding: 8px var(--gutter);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(13, 11, 18, 0.72);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+  }
+
+  .site-header.is-past-hero .header-inner {
+    height: 54px;
+  }
 }
 
 /* Mobile nav behaviour (checkbox-driven) */
@@ -1254,6 +1277,24 @@ h4 {
     font-size: 15px;
     line-height: 1.65;
     max-width: 100%;
+  }
+
+  .about-body .split-parent {
+    text-align: left !important;
+    text-align-last: auto;
+    hyphens: none;
+  }
+
+  .split-parent {
+    overflow: visible !important;
+    padding-bottom: 0.14em;
+  }
+
+  .split-word,
+  .split-char,
+  .split-line,
+  .blur-text-segment {
+    overflow: visible !important;
   }
 
 

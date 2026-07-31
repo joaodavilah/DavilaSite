@@ -1,8 +1,39 @@
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import SpecularButton from './SpecularButton';
 
 export default function Header() {
   const shouldReduceMotion = useReducedMotion();
+  const [isPastHero, setIsPastHero] = useState(false);
+
+  useEffect(() => {
+    let animationFrame;
+
+    const updateHeader = () => {
+      const hero = document.getElementById('hero');
+      const threshold = hero
+        ? hero.offsetTop + hero.offsetHeight - 72
+        : window.innerHeight - 72;
+
+      setIsPastHero(window.scrollY >= threshold);
+      animationFrame = undefined;
+    };
+
+    const handleScroll = () => {
+      if (animationFrame) return;
+      animationFrame = requestAnimationFrame(updateHeader);
+    };
+
+    updateHeader();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, []);
 
   const scrollToContact = () => {
     document.getElementById('contato')?.scrollIntoView({
@@ -11,7 +42,10 @@ export default function Header() {
   };
 
   return (
-    <header className="site-header" id="topo">
+    <header
+      className={`site-header${isPastHero ? ' is-past-hero' : ''}`}
+      id="topo"
+    >
       <div className="header-inner">
         <motion.a
           href="#topo"
