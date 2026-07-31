@@ -86,32 +86,13 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: #2e7fa7 #0d0b12;
+  scrollbar-width: none;
 }
 
 html::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-html::-webkit-scrollbar-track {
-  background: #0d0b12;
-}
-
-html::-webkit-scrollbar-thumb {
-  min-height: 48px;
-  border: 2px solid #0d0b12;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #214d6d, #51a7a3);
-}
-
-html::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #2e7fa7, #67d5cf);
-}
-
-html::-webkit-scrollbar-corner {
-  background: #0d0b12;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 html,
