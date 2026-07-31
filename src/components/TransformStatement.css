@@ -82,13 +82,14 @@
     #214d6d,
     #67d5cf,
     #2e7fa7,
+    #67d5cf,
     #214d6d
   );
-  background-size: 300% 100%;
+  background-size: 250% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: transform-gradient-shift 4s ease-in-out infinite alternate;
+  animation: transform-gradient-shift 3s linear infinite;
 }
 
 @keyframes transform-gradient-shift {
@@ -97,7 +98,14 @@
   }
 
   to {
-    background-position: 100% 50%;
+    background-position: 200% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transform-statement__char {
+    animation-duration: 3s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 
