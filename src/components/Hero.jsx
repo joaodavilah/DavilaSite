@@ -61,6 +61,7 @@ export default function Hero() {
             delay={140}
             animateBy="words"
             direction="top"
+            breakBefore="mais"
             stepDuration={0.35}
             className="hero-title hero-blur-title"
           />
