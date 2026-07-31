@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import SplitText from './SplitText';
+import TechCarousel from './TechCarousel';
 import './TransformStatement.css';
 
 const rotatingWords = [
@@ -107,6 +108,8 @@ export default function TransformStatement() {
             </AnimatePresence>
           </div>
         </div>
+
+        <TechCarousel />
       </div>
     </section>
   );

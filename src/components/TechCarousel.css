@@ -1,0 +1,125 @@
+.tech-carousel {
+  width: min(100%, 1040px);
+  overflow: hidden;
+  margin-top: clamp(20px, 3vw, 38px);
+  padding-block: 8px 20px;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.tech-carousel__track {
+  display: flex;
+  width: max-content;
+  gap: 28px;
+  animation: tech-carousel-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.tech-carousel__group {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.tech-carousel__item {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.tech-carousel__icon {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.018);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  transition:
+    border-color 220ms var(--ease),
+    background-color 220ms var(--ease),
+    transform 220ms var(--ease);
+}
+
+.tech-carousel__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tech-carousel__label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition:
+    opacity 220ms var(--ease),
+    transform 220ms var(--ease);
+}
+
+.tech-carousel__item:hover .tech-carousel__icon {
+  border-color: rgba(103, 213, 207, 0.38);
+  background: rgba(103, 213, 207, 0.055);
+  transform: translateY(-3px);
+}
+
+.tech-carousel__item:hover .tech-carousel__label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tech-carousel:hover .tech-carousel__track {
+  animation-play-state: paused;
+}
+
+@keyframes tech-carousel-scroll {
+  to {
+    transform: translateX(calc(-50% - 14px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-carousel__track {
+    animation-duration: 42s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .tech-carousel {
+    width: calc(100% + 40px);
+    margin-top: 14px;
+    padding-bottom: 8px;
+  }
+
+  .tech-carousel__track,
+  .tech-carousel__group {
+    gap: 20px;
+  }
+
+  .tech-carousel__track {
+    animation-duration: 24s;
+  }
+
+  .tech-carousel__icon {
+    width: 58px;
+    height: 58px;
+    padding: 14px;
+  }
+
+  .tech-carousel__label {
+    display: none;
+  }
+
+  @keyframes tech-carousel-scroll {
+    to {
+      transform: translateX(calc(-50% - 10px));
+    }
+  }
+}
