@@ -5,6 +5,8 @@
   overflow: hidden;
   background: var(--site-bg);
   color: var(--paper);
+  font-family: var(--font-display);
+  font-weight: 500;
 }
 
 .transform-statement .sr-only {
@@ -32,7 +34,7 @@
 .transform-statement__lead {
   font-family: var(--font-display);
   font-size: clamp(36px, 4.8vw, 68px);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.02;
   letter-spacing: -0.045em;
   color: var(--paper);
@@ -46,7 +48,7 @@
   min-height: 1.15em;
   font-family: var(--font-display);
   font-size: clamp(42px, 6vw, 86px);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.05em;
 }
@@ -63,14 +65,15 @@
 }
 
 .transform-statement__split-word {
+  display: inline-flex;
   overflow: visible !important;
   font: inherit;
   letter-spacing: inherit;
   line-height: inherit;
 }
 
-.transform-statement__split-word,
-.transform-statement__split-word .split-char {
+.transform-statement__char {
+  display: inline-block;
   color: transparent;
   background-image: linear-gradient(
     90deg,

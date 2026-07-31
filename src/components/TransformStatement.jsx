@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import SplitText from './SplitText';
 import './TransformStatement.css';
 
@@ -53,21 +54,57 @@ export default function TransformStatement() {
 
         <div className="transform-statement__word" aria-hidden="true">
           <div className="transform-statement__gradient">
-            <SplitText
-              key={currentWord}
-              text={currentWord}
-              tag="span"
-              className="transform-statement__split-word"
-              splitType="chars"
-              delay={55}
-              duration={0.72}
-              ease="power3.out"
-              threshold={0.1}
-              rootMargin="0px"
-              textAlign="center"
-              from={{ opacity: 0, y: 44 }}
-              to={{ opacity: 1, y: 0 }}
-            />
+            <AnimatePresence mode="wait" initial>
+              <motion.span
+                key={currentWord}
+                className="transform-statement__split-word"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={{
+                  hidden: {},
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.055
+                    }
+                  },
+                  exit: {
+                    transition: {
+                      staggerChildren: 0.025,
+                      staggerDirection: -1
+                    }
+                  }
+                }}
+              >
+                {Array.from(currentWord).map((character, index) => (
+                  <motion.span
+                    className="transform-statement__char"
+                    key={`${character}-${index}`}
+                    variants={{
+                      hidden: { opacity: 0, y: 44 },
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          duration: 0.72,
+                          ease: [0.22, 1, 0.36, 1]
+                        }
+                      },
+                      exit: {
+                        opacity: 0,
+                        y: -24,
+                        transition: {
+                          duration: 0.28,
+                          ease: [0.4, 0, 1, 1]
+                        }
+                      }
+                    }}
+                  >
+                    {character}
+                  </motion.span>
+                ))}
+              </motion.span>
+            </AnimatePresence>
           </div>
         </div>
       </div>
