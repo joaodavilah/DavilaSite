@@ -19,6 +19,16 @@ const navigation = [
 ];
 
 export default function Footer() {
+  const scrollToTop = event => {
+    event.preventDefault();
+    window.history.replaceState(
+      null,
+      '',
+      `${window.location.pathname}${window.location.search}`
+    );
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="site-footer">
       <div className="container">
@@ -29,6 +39,7 @@ export default function Footer() {
                 href="#topo"
                 className="footer-logo"
                 aria-label="DAVILA — voltar ao início"
+                onClick={scrollToTop}
               >
                 <img
                   src="/assets/images/Vector.png"
@@ -54,7 +65,12 @@ export default function Footer() {
             <nav className="footer-nav" aria-label="Links rápidos">
               <span className="footer-column-title">Navegação</span>
               {navigation.map(([label, href]) => (
-                <a key={label} href={href} className="footer-link">
+                <a
+                  key={label}
+                  href={href}
+                  className="footer-link"
+                  onClick={href === '#topo' ? scrollToTop : undefined}
+                >
                   <SplitText
                     text={label}
                     className="footer-link-split"
@@ -100,7 +116,11 @@ export default function Footer() {
               from={{ opacity: 0, y: 10 }}
               to={{ opacity: 1, y: 0 }}
             />
-            <a href="#topo" className="footer-back-to-top">
+            <a
+              href="#topo"
+              className="footer-back-to-top"
+              onClick={scrollToTop}
+            >
               Voltar ao topo <span aria-hidden="true">↑</span>
             </a>
           </div>

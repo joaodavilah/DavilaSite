@@ -15,14 +15,18 @@ if (window.location.hash) {
   );
 }
 
-window.scrollTo(0, 0);
-window.addEventListener(
-  'load',
-  () => {
-    window.requestAnimationFrame(() => window.scrollTo(0, 0));
-  },
-  { once: true }
-);
+const resetScrollPosition = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+};
+
+resetScrollPosition();
+
+window.addEventListener('load', () => {
+  window.requestAnimationFrame(resetScrollPosition);
+  window.setTimeout(resetScrollPosition, 100);
+}, { once: true });
+
+window.addEventListener('pageshow', resetScrollPosition);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
