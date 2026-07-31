@@ -71,8 +71,8 @@ export default function Hero() {
             data-animate="fade-up"
             {...revealProps(0.7)}
           >
-            Desenvolvemos websites, sistemas, aplicativos e soluções em dados —
-            unindo estratégia, design e engenharia para empresas que querem evoluir.
+            Desenvolvemos websites, sistemas, aplicativos e soluções em dados.
+            Unindo estratégia, design e engenharia para empresas que querem evoluir.
           </motion.p>
 
           <motion.div
