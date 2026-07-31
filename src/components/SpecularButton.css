@@ -68,14 +68,6 @@
   z-index: 1;
 }
 
-@media (pointer: coarse) {
-  .specular-button__fx {
-    inset: 0;
-    overflow: hidden;
-    border-radius: inherit;
-  }
-}
-
 .specular-button__fx canvas {
   display: block;
   width: 100%;
