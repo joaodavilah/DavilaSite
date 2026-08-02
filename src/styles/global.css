@@ -86,22 +86,14 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(103, 213, 207, 0.48) var(--site-bg);
+  scrollbar-width: none;
   color-scheme: dark;
 }
 
 html::-webkit-scrollbar {
-  width: 8px;
-}
-
-html::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: rgba(103, 213, 207, 0.42);
-}
-
-html::-webkit-scrollbar-track {
-  background: var(--site-bg);
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 html,

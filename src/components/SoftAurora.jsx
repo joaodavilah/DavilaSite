@@ -171,11 +171,7 @@ export default function SoftAurora({
     gl.clearColor(0, 0, 0, 0);
     const allowMouseInteraction =
       enableMouseInteraction &&
-      window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const shouldReduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+      !window.matchMedia('(pointer: coarse)').matches;
 
     let program;
     let currentMouse = [0.5, 0.5];
@@ -237,6 +233,7 @@ export default function SoftAurora({
     let animationFrameId;
 
     function update(time) {
+      animationFrameId = requestAnimationFrame(update);
       program.uniforms.uTime.value = time * 0.001;
 
       if (allowMouseInteraction) {
@@ -250,32 +247,11 @@ export default function SoftAurora({
       }
 
       renderer.render({ scene: mesh });
-      animationFrameId = requestAnimationFrame(update);
     }
-
-    const startAnimation = () => {
-      if (animationFrameId || document.hidden || shouldReduceMotion) return;
-      animationFrameId = requestAnimationFrame(update);
-    };
-
-    const stopAnimation = () => {
-      if (!animationFrameId) return;
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = undefined;
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) stopAnimation();
-      else startAnimation();
-    };
-
-    if (shouldReduceMotion) renderer.render({ scene: mesh });
-    else startAnimation();
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    animationFrameId = requestAnimationFrame(update);
 
     return () => {
-      stopAnimation();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resize);
       if (allowMouseInteraction) {
         window.removeEventListener('mousemove', handleMouseMove);

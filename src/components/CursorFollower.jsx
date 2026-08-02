@@ -1,26 +1,25 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './CursorFollower.css';
 
 export default function CursorFollower() {
   const mousePosition = useRef({ x: 0, y: 0 });
 
-  const ringRef = useRef(null);
   const borderDotPosition = useRef({ x: 0, y: 0 });
+
+  const [renderPos, setRenderPos] = useState({
+    border: { x: 0, y: 0 }
+  });
+  const [isHovering, setIsHovering] = useState(false);
 
   const BORDER_DOT_SMOOTHNESS = 0.1;
 
   useEffect(() => {
-    const ring = ringRef.current;
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!ring || !finePointer.matches || reducedMotion.matches) return undefined;
-
     const handleMouseMove = e => {
       mousePosition.current = { x: e.clientX, y: e.clientY };
     };
 
-    const handleMouseEnter = () => ring.classList.add('is-hovering');
-    const handleMouseLeave = () => ring.classList.remove('is-hovering');
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
 
     document.documentElement.classList.add('cursor-follower-enabled');
     window.addEventListener('mousemove', handleMouseMove);
@@ -51,7 +50,12 @@ export default function CursorFollower() {
         BORDER_DOT_SMOOTHNESS
       );
 
-      ring.style.transform = `translate3d(${borderDotPosition.current.x}px, ${borderDotPosition.current.y}px, 0) translate(-50%, -50%)`;
+      setRenderPos({
+        border: {
+          x: borderDotPosition.current.x,
+          y: borderDotPosition.current.y
+        }
+      });
 
       animationId = requestAnimationFrame(animate);
     };
@@ -75,7 +79,13 @@ export default function CursorFollower() {
 
   return (
     <div className="cursor-follower" aria-hidden="true">
-      <div ref={ringRef} className="cursor-follower__ring" />
+      <div
+        className={`cursor-follower__ring${isHovering ? ' is-hovering' : ''}`}
+        style={{
+          left: `${renderPos.border.x}px`,
+          top: `${renderPos.border.y}px`
+        }}
+      />
     </div>
   );
 }

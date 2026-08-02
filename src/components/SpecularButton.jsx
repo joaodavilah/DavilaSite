@@ -96,11 +96,6 @@ const SpecularButton = ({
     const btn = btnRef.current;
     const fx = fxRef.current;
     if (!btn || !fx) return;
-    const shouldDisableEffect =
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    if (shouldDisableEffect) return;
-
     const dpr = window.devicePixelRatio || 1;
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
     const gl = renderer.gl;
@@ -179,6 +174,7 @@ const SpecularButton = ({
     const baseC = new Color();
 
     const update = now => {
+      raf = requestAnimationFrame(update);
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       const p = propsRef.current;
@@ -203,30 +199,11 @@ const SpecularButton = ({
       program.uniforms.uShineFade.value = (p.shineFade * Math.PI) / 180;
       program.uniforms.uThickness.value = p.thickness * dpr;
       renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(update);
     };
-
-    const startAnimation = () => {
-      if (raf || document.hidden) return;
-      last = performance.now();
-      raf = requestAnimationFrame(update);
-    };
-    const stopAnimation = () => {
-      if (!raf) return;
-      cancelAnimationFrame(raf);
-      raf = 0;
-    };
-    const handleVisibilityChange = () => {
-      if (document.hidden) stopAnimation();
-      else startAnimation();
-    };
-
-    startAnimation();
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    raf = requestAnimationFrame(update);
 
     return () => {
-      stopAnimation();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
       if (gl.canvas.parentNode === fx) fx.removeChild(gl.canvas);

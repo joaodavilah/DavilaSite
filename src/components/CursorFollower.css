@@ -9,10 +9,8 @@
   position: absolute;
   display: block;
   border-radius: 50%;
-  left: 0;
-  top: 0;
-  transform: translate3d(0, 0, 0) translate(-50%, -50%);
-  will-change: transform, width, height;
+  transform: translate(-50%, -50%);
+  will-change: left, top, width, height;
 }
 
 .cursor-follower__ring {
@@ -34,7 +32,7 @@
   cursor: none !important;
 }
 
-@media (pointer: coarse), (hover: none), (prefers-reduced-motion: reduce) {
+@media (pointer: coarse) {
   .cursor-follower {
     display: none;
   }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import SplitText from './SplitText';
 import TechCarousel from './TechCarousel';
 import './TransformStatement.css';
@@ -14,17 +14,14 @@ const rotatingWords = [
 
 export default function TransformStatement() {
   const [wordIndex, setWordIndex] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (shouldReduceMotion) return undefined;
-
     const intervalId = window.setInterval(() => {
       setWordIndex(currentIndex => (currentIndex + 1) % rotatingWords.length);
     }, 3200);
 
     return () => window.clearInterval(intervalId);
-  }, [shouldReduceMotion]);
+  }, []);
 
   const currentWord = rotatingWords[wordIndex];
 
@@ -62,19 +59,19 @@ export default function TransformStatement() {
               <motion.span
                 key={currentWord}
                 className="transform-statement__split-word"
-                initial={shouldReduceMotion ? false : 'hidden'}
+                initial="hidden"
                 animate="visible"
                 exit="exit"
                 variants={{
                   hidden: {},
                   visible: {
                     transition: {
-                      staggerChildren: shouldReduceMotion ? 0 : 0.055
+                      staggerChildren: 0.055
                     }
                   },
                   exit: {
                     transition: {
-                      staggerChildren: shouldReduceMotion ? 0 : 0.025,
+                      staggerChildren: 0.025,
                       staggerDirection: -1
                     }
                   }
@@ -85,23 +82,20 @@ export default function TransformStatement() {
                     className="transform-statement__char"
                     key={`${character}-${index}`}
                     variants={{
-                      hidden: {
-                        opacity: shouldReduceMotion ? 1 : 0,
-                        y: shouldReduceMotion ? 0 : 44
-                      },
+                      hidden: { opacity: 0, y: 44 },
                       visible: {
                         opacity: 1,
                         y: 0,
                         transition: {
-                          duration: shouldReduceMotion ? 0 : 0.72,
+                          duration: 0.72,
                           ease: [0.22, 1, 0.36, 1]
                         }
                       },
                       exit: {
                         opacity: 0,
-                        y: shouldReduceMotion ? 0 : -24,
+                        y: -24,
                         transition: {
-                          duration: shouldReduceMotion ? 0 : 0.28,
+                          duration: 0.28,
                           ease: [0.4, 0, 1, 1]
                         }
                       }

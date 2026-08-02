@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { Fragment, useEffect, useRef, useState, useMemo } from 'react';
 
 const buildKeyframes = (from, steps) => {
@@ -32,7 +32,6 @@ const BlurText = ({
 }) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
   const ref = useRef(null);
 
   useEffect(() => {
@@ -102,15 +101,9 @@ const BlurText = ({
             )}
             <motion.span
               className="blur-text-segment"
-              initial={shouldReduceMotion ? false : fromSnapshot}
-              animate={
-                shouldReduceMotion
-                  ? { filter: 'blur(0px)', opacity: 1, y: 0 }
-                  : inView
-                    ? animateKeyframes
-                    : fromSnapshot
-              }
-              transition={shouldReduceMotion ? { duration: 0 } : spanTransition}
+              initial={fromSnapshot}
+              animate={inView ? animateKeyframes : fromSnapshot}
+              transition={spanTransition}
               onAnimationComplete={
                 index === elements.length - 1 ? onAnimationComplete : undefined
               }
