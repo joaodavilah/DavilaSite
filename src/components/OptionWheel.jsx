@@ -276,12 +276,16 @@ const OptionWheel = ({
       let delta = null;
       if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') delta = -1;
       else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') delta = 1;
+      else if (e.key === 'Home') delta = -Infinity;
+      else if (e.key === 'End') delta = Infinity;
       if (delta == null) return;
 
       e.preventDefault();
-      applyTarget(Math.round(targetRef.current) + delta, true);
+      if (delta === -Infinity) applyTarget(0, true);
+      else if (delta === Infinity) applyTarget(items.length - 1, true);
+      else applyTarget(Math.round(targetRef.current) + delta, true);
     },
-    [applyTarget]
+    [applyTarget, items.length]
   );
 
   useEffect(() => {
@@ -311,6 +315,7 @@ const OptionWheel = ({
       role="listbox"
       tabIndex={0}
       aria-label="Serviços"
+      aria-activedescendant={`service-option-${selectedIndex}`}
       className={`option-wheel${side === 'right' ? ' option-wheel--right' : ''}${isDragging ? ' option-wheel--dragging' : ''}${className ? ` ${className}` : ''}`}
       style={{
         '--ow-text-color': textColor,
@@ -327,6 +332,7 @@ const OptionWheel = ({
       {items.map((label, index) => (
         <div
           key={`${label}-${index}`}
+          id={`service-option-${index}`}
           ref={el => {
             itemRefs.current[index] = el;
           }}

@@ -1,5 +1,11 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react';
+import {
+  motion,
+  useMotionValue,
+  useAnimationFrame,
+  useReducedMotion,
+  useTransform
+} from 'motion/react';
 import './ShinyText.css';
 
 const ShinyText = ({
@@ -16,6 +22,7 @@ const ShinyText = ({
   delay = 0
 }) => {
   const [isPaused, setIsPaused] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
   const progress = useMotionValue(0);
   const elapsedRef = useRef(0);
   const lastTimeRef = useRef(null);
@@ -25,7 +32,7 @@ const ShinyText = ({
   const delayDuration = delay * 1000;
 
   useAnimationFrame(time => {
-    if (disabled || isPaused) {
+    if (disabled || isPaused || shouldReduceMotion || document.hidden) {
       lastTimeRef.current = null;
       return;
     }

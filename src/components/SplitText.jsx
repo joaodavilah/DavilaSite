@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
+import { useReducedMotion } from 'motion/react';
 
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
 
@@ -25,6 +26,7 @@ const SplitText = ({
   const animationCompletedRef = useRef(false);
   const onCompleteRef = useRef(onLetterAnimationComplete);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     onCompleteRef.current = onLetterAnimationComplete;
@@ -44,10 +46,16 @@ const SplitText = ({
       if (animationCompletedRef.current) return;
       const el = ref.current;
 
+      if (shouldReduceMotion) {
+        animationCompletedRef.current = true;
+        onCompleteRef.current?.();
+        return;
+      }
+
       if (el._rbsplitInstance) {
         try {
           el._rbsplitInstance.revert();
-        } catch (_) {
+        } catch {
           // noop
         }
         el._rbsplitInstance = null;
@@ -118,7 +126,7 @@ const SplitText = ({
         });
         try {
           splitInstance.revert();
-        } catch (_) {
+        } catch {
           // noop
         }
         el._rbsplitInstance = null;
@@ -135,7 +143,8 @@ const SplitText = ({
         JSON.stringify(to),
         threshold,
         rootMargin,
-        fontsLoaded
+        fontsLoaded,
+        shouldReduceMotion
       ],
       scope: ref
     }
@@ -152,7 +161,7 @@ const SplitText = ({
         display: 'inline-block',
         whiteSpace: 'normal',
         wordWrap: 'break-word',
-        willChange: 'transform, opacity'
+        willChange: shouldReduceMotion ? 'auto' : 'transform, opacity'
       }}
       className={`split-parent ${className}`}
     >

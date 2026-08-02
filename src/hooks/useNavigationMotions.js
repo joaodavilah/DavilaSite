@@ -20,6 +20,14 @@ export default function useNavigationMotions() {
       context => {
         const reducedMotion = Boolean(context.conditions.reducedMotion);
 
+        if (reducedMotion) {
+          gsap.set(
+            '.pillars .pillar-card, .service-detail, .contact-card, .contact-cta-panel, .footer-inner, .footer-bottom',
+            { clearProps: 'all' }
+          );
+          return undefined;
+        }
+
         const animationContext = gsap.context(() => {
           const createReveal = ({
             targets,

@@ -36,6 +36,7 @@ export default function Header() {
   }, []);
 
   const scrollToContact = () => {
+    window.history.pushState(null, '', '#contato');
     document.getElementById('contato')?.scrollIntoView({
       behavior: shouldReduceMotion ? 'auto' : 'smooth'
     });
@@ -58,7 +59,13 @@ export default function Header() {
           }
           transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
         >
-          <img src="/assets/images/Vector.png" alt="" className="logo-vector" />
+          <img
+            src="/assets/images/Vector.png"
+            alt=""
+            width="642"
+            height="662"
+            className="logo-vector"
+          />
         </motion.a>
 
         <motion.div

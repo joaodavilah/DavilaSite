@@ -14,10 +14,13 @@ export default function App() {
 
   return (
     <>
+      <a className="skip-link" href="#conteudo-principal">
+        Pular para o conteúdo
+      </a>
       <CursorFollower />
       <SectionNavigator />
       <Header />
-      <main>
+      <main id="conteudo-principal">
         <Hero />
         <About />
         <Services />

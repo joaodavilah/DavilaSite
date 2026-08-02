@@ -37,6 +37,10 @@ export default function ScrollReveal({
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(el, { clearProps: 'all' });
+      return undefined;
+    }
 
     const scroller = scrollContainerRef?.current || window;
     const targets = isText

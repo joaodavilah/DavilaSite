@@ -7,28 +7,28 @@
 /* ---------- Fonts ---------- */
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Light"), local("Gotham-Light"), url("/assets/fonts/Gotham-Light.woff2") format("woff2");
+  src: local("Gotham Light"), local("Gotham-Light");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Book"), local("Gotham-Book"), url("/assets/fonts/Gotham-Book.woff2") format("woff2");
+  src: local("Gotham Book"), local("Gotham-Book");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Medium"), local("Gotham-Medium"), url("/assets/fonts/Gotham-Medium.woff2") format("woff2");
+  src: local("Gotham Medium"), local("Gotham-Medium");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Gotham";
-  src: local("Gotham Bold"), local("Gotham-Bold"), url("/assets/fonts/Gotham-Bold.woff2") format("woff2");
+  src: local("Gotham Bold"), local("Gotham-Bold");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -86,13 +86,22 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(103, 213, 207, 0.48) var(--site-bg);
+  color-scheme: dark;
 }
 
 html::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+  width: 8px;
+}
+
+html::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(103, 213, 207, 0.42);
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--site-bg);
 }
 
 html,
@@ -145,6 +154,31 @@ button {
   cursor: pointer;
 }
 
+a,
+button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(103, 213, 207, 0.14);
+}
+
+.skip-link {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: 16px;
+  z-index: 10000;
+  padding: 10px 14px;
+  border-radius: var(--radius-m);
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 14px;
+  font-weight: 500;
+  transform: translateY(calc(-100% - 24px));
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 /* ---------- Focus states ---------- */
 a:focus-visible,
 button:focus-visible,
@@ -175,6 +209,7 @@ button:focus-visible,
 
 section {
   position: relative;
+  scroll-margin-top: 88px;
 }
 
 /* ---------- Typography scale ---------- */
@@ -270,7 +305,7 @@ h4 {
    ========================================================================== */
 .site-header {
   position: fixed;
-  top: 18px;
+  top: max(18px, env(safe-area-inset-top));
   left: 0;
   right: 0;
   z-index: 100;
@@ -1679,7 +1714,7 @@ main,
   margin-top: 5px;
   font-size: 11px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.52);
 }
 
 .contact-copy-btn {
@@ -1735,6 +1770,15 @@ main,
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
+}
+
+.copy-toast.is-error {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.copy-toast.is-error .copy-toast__check {
+  color: var(--paper);
+  background: var(--signal);
 }
 
 .copy-toast__check {
@@ -1927,17 +1971,36 @@ main,
 
 @media (max-width: 430px) {
   .site-header {
-    top: 10px;
+    top: max(10px, env(safe-area-inset-top));
   }
 
   .header-specular-button {
-    min-height: 40px;
+    min-height: 44px;
     padding: 8px 14px !important;
     font-size: 12px;
   }
 
+  .logo,
+  .footer-logo {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .contact-card-value,
+  .footer-link,
+  .footer-back-to-top {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .contact-copy-btn {
+    width: 44px;
+    height: 44px;
+  }
+
   .contact-card {
-    grid-template-columns: 42px minmax(0, 1fr) 34px;
+    grid-template-columns: 42px minmax(0, 1fr) 44px;
     gap: 10px;
     padding: 18px 12px;
   }
@@ -1960,8 +2023,8 @@ main,
   }
 
   .contact-copy-btn {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
   }
 
   .contact {

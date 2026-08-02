@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://davila-site.vercel.app/sitemap.xml

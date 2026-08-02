@@ -47,7 +47,8 @@ export default function SectionNavigator() {
     };
   }, []);
 
-  const navigateTo = id => {
+  const navigateTo = (event, id) => {
+    event.preventDefault();
     const reducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
@@ -56,6 +57,7 @@ export default function SectionNavigator() {
       behavior: reducedMotion ? 'auto' : 'smooth',
       block: 'start'
     });
+    window.history.pushState(null, '', `#${id}`);
   };
 
   return (
@@ -71,13 +73,13 @@ export default function SectionNavigator() {
         const isActive = activeSection === id;
 
         return (
-          <button
+          <a
             key={id}
-            type="button"
+            href={`#${id}`}
             className={`section-navigator__item${isActive ? ' is-active' : ''}`}
             aria-label={`Ir para ${label}`}
             aria-current={isActive ? 'true' : undefined}
-            onClick={() => navigateTo(id)}
+            onClick={event => navigateTo(event, id)}
           >
             <span className="section-navigator__label">{label}</span>
             <motion.span
@@ -99,7 +101,7 @@ export default function SectionNavigator() {
                 ease: [0.22, 1, 0.36, 1]
               }}
             />
-          </button>
+          </a>
         );
       })}
     </motion.nav>

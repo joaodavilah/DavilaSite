@@ -26,8 +26,8 @@ const services = [
     description: 'Transformamos dados em informações estratégicas por meio de dashboards interativos, indicadores e visualizações que facilitam o acompanhamento de resultados e apoiam decisões mais assertivas.'
   },
   {
-    title: 'Soluções em Python',
-    description: 'Desenvolvemos dashboards, automações e soluções em Python para transformar dados em análises visuais, reduzir tarefas manuais e acompanhar indicadores de forma flexível e personalizada.'
+    title: 'Dashboard em Python',
+    description: 'Dashboards personalizados com maior flexibilidade de interface, processamento e integração de dados.'
   }
 ];
 

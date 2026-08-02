@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SplitText from './SplitText';
 
 const phoneDisplay = '(47) 99955-9197';
@@ -34,6 +34,15 @@ const IconWhatsapp = () => (
 
 export default function Contact() {
   const [copied, setCopied] = useState('');
+  const [copyError, setCopyError] = useState(false);
+  const feedbackTimerRef = useRef(null);
+
+  useEffect(
+    () => () => {
+      if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current);
+    },
+    []
+  );
 
   const writeToClipboard = async value => {
     if (navigator.clipboard?.writeText) {
@@ -59,10 +68,15 @@ export default function Contact() {
   const copyValue = async (value, key) => {
     try {
       await writeToClipboard(value);
+      setCopyError(false);
       setCopied(key);
-      window.setTimeout(() => setCopied(''), 1600);
+      if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current);
+      feedbackTimerRef.current = window.setTimeout(() => setCopied(''), 1600);
     } catch {
       setCopied('');
+      setCopyError(true);
+      if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current);
+      feedbackTimerRef.current = window.setTimeout(() => setCopyError(false), 2600);
     }
   };
 
@@ -114,13 +128,19 @@ export default function Contact() {
       </div>
 
       <div
-        className={`copy-toast${copied ? ' is-visible' : ''}`}
+        className={`copy-toast${copied || copyError ? ' is-visible' : ''}${copyError ? ' is-error' : ''}`}
         role="status"
         aria-live="polite"
         aria-atomic="true"
       >
-        <span className="copy-toast__check" aria-hidden="true">✓</span>
-        {copied === 'phone' ? 'Telefone copiado!' : 'E-mail copiado!'}
+        <span className="copy-toast__check" aria-hidden="true">
+          {copyError ? '!' : '✓'}
+        </span>
+        {copyError
+          ? 'Não foi possível copiar. Selecione o contato manualmente.'
+          : copied === 'phone'
+            ? 'Telefone copiado!'
+            : 'E-mail copiado!'}
       </div>
     </section>
   );

@@ -86,8 +86,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tech-carousel__track {
-    animation-duration: 42s !important;
-    animation-iteration-count: infinite !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .tech-carousel__group[aria-hidden="true"] {
+    display: none;
   }
 }
 
