@@ -522,7 +522,7 @@ h4 {
 }
 
 .hero-content {
-  width: min(100%, 940px);
+  width: min(100%, 1200px);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -570,13 +570,13 @@ h4 {
 
 .hero-blur-title {
   max-width: none;
-  justify-content: center;
   margin-inline: auto;
   text-align: center;
 }
 
-.hero-blur-title .blur-text-segment {
-  flex-shrink: 0;
+.hero-title-line {
+  display: block;
+  white-space: nowrap;
 }
 
 .blur-text-segment {
@@ -1297,6 +1297,10 @@ h4 {
     line-height: 1.06;
     letter-spacing: -0.04em;
     overflow-wrap: normal;
+  }
+
+  .hero-title-line {
+    white-space: normal;
   }
 
   .hero-subtitle {
