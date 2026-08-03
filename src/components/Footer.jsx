@@ -60,6 +60,7 @@ export default function Footer() {
                 text="Soluções digitais, desenvolvimento e dados para empresas que querem evoluir."
                 tag="p"
                 className="footer-tagline"
+                reveal="editorial"
                 splitType="words"
                 delay={16}
                 duration={0.5}
@@ -116,6 +117,7 @@ export default function Footer() {
               text="© 2026 Davila. Todos os direitos reservados."
               tag="p"
               className="footer-copyright"
+              reveal="editorial"
               splitType="words"
               delay={12}
               duration={0.45}

@@ -14,6 +14,7 @@ export default function About() {
               text="Ajudamos empresas a alcançar"
               tag="span"
               className="about-title-line"
+              reveal="editorial"
               splitType="words"
               delay={45}
               duration={0.72}
@@ -38,6 +39,7 @@ export default function About() {
               text="no mercado digital."
               tag="span"
               className="about-title-line"
+              reveal="editorial"
               splitType="words"
               delay={45}
               duration={0.72}
@@ -55,6 +57,7 @@ export default function About() {
             text="Transformando ideias em soluções digitais modernas, funcionais e alinhadas às necessidades de cada negócio. Sites e sistemas que fortalecem a presença da empresa e aproximam ela dos seus clientes."
             tag="p"
             className="about-lead"
+            reveal="editorial"
             splitType="words"
             delay={18}
             duration={0.65}
@@ -69,6 +72,7 @@ export default function About() {
             text="A tecnologia deve gerar oportunidades, otimizar processos e apoiar o crescimento. E que dados, quando bem interpretados, transformam o dia a dia em decisões mais estratégicas."
             tag="p"
             className="about-text"
+            reveal="editorial"
             splitType="words"
             delay={14}
             duration={0.62}
@@ -83,6 +87,7 @@ export default function About() {
             text="Unimos estratégia, design, tecnologia e inteligência de dados para desenvolver soluções que realmente agreguem valor ao negócio."
             tag="p"
             className="about-text"
+            reveal="editorial"
             splitType="words"
             delay={14}
             duration={0.62}

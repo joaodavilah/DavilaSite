@@ -1571,6 +1571,11 @@ main,
 .split-char,
 .split-line {
   will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.split-parent {
+  perspective: 900px;
 }
 
 .split-parent {
@@ -1580,6 +1585,18 @@ main,
 .split-parent,
 .split-line {
   min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .split-parent {
+    perspective: none;
+  }
+
+  .split-word,
+  .split-char,
+  .split-line {
+    will-change: auto;
+  }
 }
 
 .nav-split-text,

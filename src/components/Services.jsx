@@ -44,6 +44,7 @@ export default function Services() {
             text="Podemos ajudar sua empresa com:"
             tag="h2"
             className="section-title services-title-split"
+            reveal="editorial"
             splitType="words"
             delay={45}
             duration={0.7}

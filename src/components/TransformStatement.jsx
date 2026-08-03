@@ -42,6 +42,7 @@ export default function TransformStatement() {
           text="Transforme sua empresa com"
           tag="p"
           className="transform-statement__lead"
+          reveal="editorial"
           splitType="words"
           delay={70}
           duration={0.8}

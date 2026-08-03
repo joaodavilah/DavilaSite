@@ -19,6 +19,7 @@ const SplitText = ({
   rootMargin = '-100px',
   textAlign = 'center',
   tag = 'p',
+  reveal = 'default',
   onLetterAnimationComplete
 }) => {
   const ref = useRef(null);
@@ -73,6 +74,26 @@ const SplitText = ({
         if (!targets) targets = self.chars || self.words || self.lines;
       };
 
+      const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+      const editorialReveal = reveal === 'editorial';
+      const entranceFrom = reduceMotion
+        ? { opacity: 0, y: 6 }
+        : editorialReveal
+          ? {
+              ...from,
+              rotateX: from.rotateX ?? -10,
+              filter: from.filter ?? 'blur(6px)',
+              transformOrigin: '50% 100%'
+            }
+          : from;
+      const entranceTo = reduceMotion
+        ? { opacity: 1, y: 0 }
+        : editorialReveal
+          ? { ...to, rotateX: 0, filter: 'blur(0px)' }
+          : to;
+
       const splitInstance = new GSAPSplitText(el, {
         type: splitType,
         smartWrap: true,
@@ -85,12 +106,14 @@ const SplitText = ({
           assignTargets(self);
           const tween = gsap.fromTo(
             targets,
-            { ...from },
+            entranceFrom,
             {
-              ...to,
-              duration,
+              ...entranceTo,
+              duration: reduceMotion ? Math.min(duration, 0.28) : duration,
               ease,
-              stagger: delay / 1000,
+              stagger: reduceMotion
+                ? Math.min(delay / 1000, 0.015)
+                : delay / 1000,
               scrollTrigger: {
                 trigger: el,
                 start,
@@ -100,6 +123,7 @@ const SplitText = ({
               },
               onComplete: () => {
                 animationCompletedRef.current = true;
+                gsap.set(targets, { clearProps: 'willChange' });
                 onCompleteRef.current?.();
               },
               willChange: 'transform, opacity',
@@ -135,6 +159,7 @@ const SplitText = ({
         JSON.stringify(to),
         threshold,
         rootMargin,
+        reveal,
         fontsLoaded
       ],
       scope: ref
