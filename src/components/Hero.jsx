@@ -63,6 +63,7 @@ export default function Hero() {
               animateBy="words"
               direction="top"
               stepDuration={0.35}
+              layout="inline"
               className="hero-title-line"
             />
             <BlurText
@@ -72,6 +73,7 @@ export default function Hero() {
               animateBy="words"
               direction="top"
               stepDuration={0.35}
+              layout="inline"
               className="hero-title-line"
             />
           </h1>

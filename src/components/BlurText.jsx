@@ -28,6 +28,7 @@ const BlurText = ({
   onAnimationComplete,
   stepDuration = 0.35,
   breakBefore,
+  layout = 'flex',
   as: Tag = 'p'
 }) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
@@ -82,7 +83,11 @@ const BlurText = ({
     <Tag
       ref={ref}
       className={className}
-      style={{ display: 'flex', flexWrap: 'wrap' }}
+      style={
+        layout === 'inline'
+          ? { display: 'block', textAlign: 'center' }
+          : { display: 'flex', flexWrap: 'wrap' }
+      }
     >
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
