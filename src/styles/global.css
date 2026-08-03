@@ -569,6 +569,7 @@ h4 {
 }
 
 .hero-blur-title {
+  max-width: none;
   justify-content: center;
   margin-inline: auto;
   text-align: center;
@@ -584,7 +585,7 @@ h4 {
 }
 
 .blur-text-line-break {
-  flex-basis: 100%;
+  flex: 0 0 100%;
   width: 0;
   height: 0;
 }
