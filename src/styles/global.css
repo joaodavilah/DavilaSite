@@ -720,82 +720,53 @@ h4 {
   line-height: 1.7;
 }
 
-.pillars-marquee {
+.pillars-band {
   grid-column: 1 / -1;
   position: relative;
   width: 100vw;
-  min-height: clamp(156px, 16vw, 214px);
   margin-left: calc(50% - 50vw);
-  margin-top: clamp(22px, 4vw, 56px);
+  margin-top: clamp(24px, 4vw, 52px);
   overflow: clip;
-  perspective: 1100px;
+  color: #071314;
+  background: linear-gradient(90deg, #51a7a3 0%, #67d5cf 48%, #38bdf8 100%);
+  box-shadow: 0 16px 52px rgba(36, 156, 161, 0.18);
+  transform: rotate(-1.35deg) scale(1.015);
+  transform-origin: center;
+  will-change: clip-path;
 }
 
-.pillars-marquee-track {
+.pillars-band-track {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 1.5vw, 24px);
   width: max-content;
-  min-height: inherit;
-  padding-inline: max(var(--gutter), calc((100vw - var(--container-w)) / 2 + var(--gutter)));
-  transform-style: preserve-3d;
+  min-height: clamp(76px, 7.5vw, 106px);
+  padding-inline: clamp(18px, 3vw, 48px);
   will-change: transform;
 }
 
-.pillar-marquee-item {
-  flex: 0 0 clamp(300px, 34vw, 460px);
-  transform-style: preserve-3d;
-  will-change: transform, opacity, clip-path;
-}
-
-.specular-button.pillar-card {
-  display: flex;
-  width: 100%;
-  min-height: clamp(76px, 7vw, 94px);
-  padding: 18px 24px;
-  border-radius: 14px;
-  cursor: default;
-  text-align: center;
-}
-
-.specular-button.pillar-card:active {
-  transform: none;
-}
-
-.pillar-card .specular-button__label {
-  width: 100%;
+.pillars-band-group {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex: 0 0 auto;
 }
 
-.pillar-name {
-  display: block;
+.pillars-band-item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(26px, 3.6vw, 58px);
+  padding-left: clamp(26px, 3.6vw, 58px);
   font-family: var(--font-display);
-  font-size: clamp(14px, 1.2vw, 18px);
-  font-weight: 500;
-  color: var(--paper);
+  font-size: clamp(21px, 2.5vw, 38px);
+  font-weight: 600;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.025em;
   white-space: nowrap;
-  will-change: transform;
 }
 
-.pillar-name-mask {
-  display: block;
-  overflow: hidden;
-  perspective: 600px;
-}
-
-.pillars-marquee-hint {
-  position: absolute;
-  right: max(var(--gutter), calc((100vw - var(--container-w)) / 2 + var(--gutter)));
-  bottom: 8px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.36);
+.pillars-band-separator {
+  color: rgba(7, 19, 20, 0.42);
+  font-size: 0.72em;
 }
 
 /* ==========================================================================
@@ -1377,33 +1348,20 @@ h4 {
     line-height: 1.42;
   }
 
-  .pillars-marquee {
-    min-height: 148px;
-    margin-top: 12px;
-    overflow: clip;
+  .pillars-band {
+    margin-top: 18px;
+    transform: rotate(-1deg) scale(1.02);
   }
 
-  .pillars-marquee-track {
-    gap: 12px;
-    padding-inline: 20px;
+  .pillars-band-track {
+    min-height: 68px;
+    padding-inline: 8px;
   }
 
-  .pillar-marquee-item {
-    flex-basis: min(82vw, 330px);
-  }
-
-  .specular-button.pillar-card {
-    min-height: 72px;
-    padding: 15px 18px;
-  }
-
-  .pillar-name {
-    font-size: 13px;
-  }
-
-  .pillars-marquee-hint {
-    right: 20px;
-    bottom: 4px;
+  .pillars-band-item {
+    gap: 28px;
+    padding-left: 28px;
+    font-size: clamp(19px, 5.8vw, 25px);
   }
 
   .about-title {
@@ -1479,37 +1437,13 @@ h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pillars-marquee {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory;
-  }
-
-  .pillars-marquee::-webkit-scrollbar {
-    display: none;
-  }
-
-  .pillars-marquee-track {
-    transform: none !important;
-    will-change: auto;
-  }
-
-  .pillar-marquee-item {
-    opacity: 1 !important;
-    transform: none !important;
+  .pillars-band {
     clip-path: none !important;
-    scroll-snap-align: center;
-    will-change: auto;
   }
 
-  .pillar-name {
+  .pillars-band-track {
     transform: none !important;
     will-change: auto;
-  }
-
-  .pillars-marquee-hint {
-    display: none;
   }
 }
 
