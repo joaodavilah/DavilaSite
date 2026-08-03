@@ -577,12 +577,17 @@ h4 {
 .hero-title-line {
   display: block;
   width: 100%;
-  justify-content: center;
+  margin-inline: auto;
+  text-align: center;
   white-space: nowrap;
 }
 
-.hero-title-line .blur-text-segment {
-  flex-shrink: 0;
+.hero-title-word {
+  display: inline-block;
+}
+
+.hero-title-word + .hero-title-word {
+  margin-left: 0.24em;
 }
 
 .blur-text-segment {
