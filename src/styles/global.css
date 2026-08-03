@@ -720,21 +720,39 @@ h4 {
   line-height: 1.7;
 }
 
-.pillars {
+.pillars-marquee {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  width: min(100%, 720px);
-  margin-top: clamp(12px, 2vw, 24px);
-  justify-self: center;
+  position: relative;
+  width: 100vw;
+  min-height: clamp(156px, 16vw, 214px);
+  margin-left: calc(50% - 50vw);
+  margin-top: clamp(22px, 4vw, 56px);
+  overflow: clip;
+  perspective: 1100px;
+}
+
+.pillars-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.5vw, 24px);
+  width: max-content;
+  min-height: inherit;
+  padding-inline: max(var(--gutter), calc((100vw - var(--container-w)) / 2 + var(--gutter)));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.pillar-marquee-item {
+  flex: 0 0 clamp(300px, 34vw, 460px);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, clip-path;
 }
 
 .specular-button.pillar-card {
   display: flex;
   width: 100%;
-  min-height: 54px;
-  padding: 13px 14px;
+  min-height: clamp(76px, 7vw, 94px);
+  padding: 18px 24px;
   border-radius: 14px;
   cursor: default;
   text-align: center;
@@ -752,13 +770,32 @@ h4 {
 }
 
 .pillar-name {
+  display: block;
   font-family: var(--font-display);
-  font-size: clamp(12px, 0.85vw, 14px);
+  font-size: clamp(14px, 1.2vw, 18px);
   font-weight: 500;
   color: var(--paper);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  will-change: transform;
+}
+
+.pillar-name-mask {
+  display: block;
+  overflow: hidden;
+  perspective: 600px;
+}
+
+.pillars-marquee-hint {
+  position: absolute;
+  right: max(var(--gutter), calc((100vw - var(--container-w)) / 2 + var(--gutter)));
+  bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.36);
 }
 
 /* ==========================================================================
@@ -1340,18 +1377,33 @@ h4 {
     line-height: 1.42;
   }
 
-  .pillars {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 100%;
+  .pillars-marquee {
+    min-height: 148px;
+    margin-top: 12px;
+    overflow: clip;
+  }
+
+  .pillars-marquee-track {
+    gap: 12px;
+    padding-inline: 20px;
+  }
+
+  .pillar-marquee-item {
+    flex-basis: min(82vw, 330px);
   }
 
   .specular-button.pillar-card {
-    min-height: 50px;
-    padding: 11px 12px;
+    min-height: 72px;
+    padding: 15px 18px;
   }
 
   .pillar-name {
-    font-size: 12px;
+    font-size: 13px;
+  }
+
+  .pillars-marquee-hint {
+    right: 20px;
+    bottom: 4px;
   }
 
   .about-title {
@@ -1424,6 +1476,41 @@ h4 {
     padding: 20px 26px 24px;
   }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pillars-marquee {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .pillars-marquee::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pillars-marquee-track {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .pillar-marquee-item {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    scroll-snap-align: center;
+    will-change: auto;
+  }
+
+  .pillar-name {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .pillars-marquee-hint {
+    display: none;
+  }
 }
 
 @media (max-width: 430px) {

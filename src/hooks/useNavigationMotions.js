@@ -101,13 +101,6 @@ export default function useNavigationMotions() {
             );
           };
 
-          createOpacityReveal({
-            targets: '.pillars .pillar-card',
-            trigger: '.pillars',
-            start: 'top 90%',
-            stagger: 0.09
-          });
-
           createReveal({
             targets: '.service-detail',
             trigger: '.services-explorer',

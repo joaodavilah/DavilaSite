@@ -1,8 +1,6 @@
-import SpecularButton from './SpecularButton';
 import SplitText from './SplitText';
 import GradientText from './GradientText';
-
-const pillars = ['Estratégia', 'Design', 'Tecnologia', 'Dados'];
+import PillarsMarquee from './PillarsMarquee';
 
 export default function About() {
   return (
@@ -99,33 +97,7 @@ export default function About() {
           />
         </div>
 
-        <div className="pillars" aria-label="Pilares da Davila">
-          {pillars.map(name => (
-            <SpecularButton
-              key={name}
-              as="div"
-              size="sm"
-              radius={14}
-              tint="#ffffff"
-              tintOpacity={0}
-              blur={0}
-              textColor="#f5f5f5"
-              lineColor="#98a1da"
-              baseColor="#525252"
-              intensity={1}
-              shineSize={10}
-              shineFade={40}
-              thickness={1}
-              speed={0.35}
-              followMouse
-              proximity={250}
-              autoAnimate={false}
-              className="pillar-card"
-            >
-              <span className="pillar-name">{name}</span>
-            </SpecularButton>
-          ))}
-        </div>
+        <PillarsMarquee />
       </div>
     </section>
   );
