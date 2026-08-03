@@ -576,7 +576,13 @@ h4 {
 
 .hero-title-line {
   display: block;
+  width: 100%;
+  justify-content: center;
   white-space: nowrap;
+}
+
+.hero-title-line .blur-text-segment {
+  flex-shrink: 0;
 }
 
 .blur-text-segment {

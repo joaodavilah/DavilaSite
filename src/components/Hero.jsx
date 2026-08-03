@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react';
 import SoftAurora from './SoftAurora';
 import SpecularButton from './SpecularButton';
+import BlurText from './BlurText';
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -54,13 +55,26 @@ export default function Hero() {
 
       <div className="hero-inner">
         <div className="hero-content">
-          <motion.h1
-            className="hero-title hero-blur-title"
-            {...revealProps(0.12)}
-          >
-            <span className="hero-title-line">Tecnologia para levar negócios</span>
-            <span className="hero-title-line">mais longe.</span>
-          </motion.h1>
+          <h1 className="hero-title hero-blur-title">
+            <BlurText
+              as="span"
+              text="Tecnologia para levar negócios"
+              delay={140}
+              animateBy="words"
+              direction="top"
+              stepDuration={0.35}
+              className="hero-title-line"
+            />
+            <BlurText
+              as="span"
+              text="mais longe."
+              delay={140}
+              animateBy="words"
+              direction="top"
+              stepDuration={0.35}
+              className="hero-title-line"
+            />
+          </h1>
 
           <motion.p
             className="hero-subtitle reveal-text"
