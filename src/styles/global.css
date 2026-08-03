@@ -1442,7 +1442,6 @@ h4 {
   }
 
   .pillars-band-track {
-    transform: none !important;
     will-change: auto;
   }
 }

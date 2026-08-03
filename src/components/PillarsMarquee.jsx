@@ -21,67 +21,51 @@ export default function PillarsMarquee() {
       const track = trackRef.current;
       if (!band || !track) return undefined;
 
-      const media = gsap.matchMedia();
+      const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+      const travel = () =>
+        Math.min(
+          Math.max(0, track.scrollWidth - window.innerWidth),
+          window.innerWidth * (reducedMotion ? 0.85 : 1.8)
+        );
 
-      media.add(
+      const horizontalTween = gsap.fromTo(
+        track,
+        { x: () => window.innerWidth * 0.28 },
         {
-          desktop: '(min-width: 721px)',
-          mobile: '(max-width: 720px)',
-          fullMotion: '(prefers-reduced-motion: no-preference)',
-          reducedMotion: '(prefers-reduced-motion: reduce)'
-        },
-        context => {
-          const { desktop, reducedMotion } = context.conditions;
-
-          if (reducedMotion) {
-            gsap.set(track, { clearProps: 'transform' });
-            return undefined;
+          x: () => -travel(),
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: band,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+            invalidateOnRefresh: true
           }
-
-          const horizontalTween = gsap.fromTo(
-            track,
-            {
-              x: () => Math.min(window.innerWidth * 0.08, desktop ? 120 : 28)
-            },
-            {
-              x: () =>
-                -Math.max(0, track.scrollWidth - window.innerWidth),
-              ease: 'none',
-              force3D: true,
-              scrollTrigger: {
-                trigger: document.documentElement,
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: desktop ? 0.32 : 0.22,
-                fastScrollEnd: false,
-                invalidateOnRefresh: true
-              }
-            }
-          );
-
-          const revealTween = gsap.fromTo(
-            band,
-            { clipPath: 'inset(0 100% 0 0)' },
-            {
-              clipPath: 'inset(0 0% 0 0)',
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: band,
-                start: 'top 88%',
-                toggleActions: 'play none none reverse'
-              }
-            }
-          );
-
-          return () => {
-            horizontalTween.kill();
-            revealTween.kill();
-          };
         }
       );
 
-      return () => media.revert();
+      const revealTween = gsap.fromTo(
+        band,
+        { clipPath: 'inset(0 100% 0 0)' },
+        {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: reducedMotion ? 0.25 : 0.72,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: band,
+            start: 'top 92%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      return () => {
+        horizontalTween.kill();
+        revealTween.kill();
+      };
     },
     { scope: bandRef }
   );
