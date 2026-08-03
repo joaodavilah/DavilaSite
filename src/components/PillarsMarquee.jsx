@@ -26,6 +26,8 @@ export default function PillarsMarquee() {
       media.add(
         {
           desktop: '(min-width: 721px)',
+          mobile: '(max-width: 720px)',
+          fullMotion: '(prefers-reduced-motion: no-preference)',
           reducedMotion: '(prefers-reduced-motion: reduce)'
         },
         context => {
