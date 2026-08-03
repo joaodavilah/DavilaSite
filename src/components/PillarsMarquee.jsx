@@ -38,16 +38,20 @@ export default function PillarsMarquee() {
 
           const horizontalTween = gsap.fromTo(
             track,
-            { xPercent: desktop ? -4 : -2 },
             {
-              xPercent: desktop ? -42 : -28,
+              x: () => Math.min(window.innerWidth * 0.08, desktop ? 120 : 28)
+            },
+            {
+              x: () =>
+                -Math.max(0, track.scrollWidth - window.innerWidth),
               ease: 'none',
               force3D: true,
               scrollTrigger: {
                 trigger: document.documentElement,
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: desktop ? 0.65 : 0.4,
+                scrub: desktop ? 0.32 : 0.22,
+                fastScrollEnd: false,
                 invalidateOnRefresh: true
               }
             }
