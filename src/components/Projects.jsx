@@ -3,10 +3,12 @@ import './Projects.css';
 // Substitua estes exemplos pelos nomes, descrições e links dos seus projetos.
 const projects = [
   {
-    name: 'Lume Fotografia',
-    description: 'Um espaço para transformar histórias em imagens e aproximar uma fotógrafa dos seus próximos clientes.',
+    name: 'João Vitor VM',
+    description: 'Um site para apresentar trabalhos audiovisuais, contar histórias e conectar novos clientes ao trabalho do profissional.',
+    image: '/assets/images/joao-vitor-vm.png',
+    imageAlt: 'Página inicial de João Vitor VM com um carro branco e a chamada Audiovisual que comunica e encanta.',
     kind: 'photography',
-    details: 'Conceito de um portfólio de fotografia com apresentação dos ensaios, informações sobre o trabalho e um caminho direto para agendar uma sessão.'
+    details: 'Apresentação digital de um profissional do audiovisual, com destaque para a identidade visual e os trabalhos realizados.'
   },
   {
     name: 'Nexo Gestão',
@@ -53,7 +55,11 @@ export default function Projects() {
         <div className="projects-list">
           {projects.map(project => (
             <article className="project-card" key={project.name}>
-              <ProjectPreview kind={project.kind} />
+              {project.image ? (
+                <div className="project-preview project-preview--screenshot">
+                  <img src={project.image} alt={project.imageAlt} width="1911" height="917" loading="lazy" decoding="async" />
+                </div>
+              ) : <ProjectPreview kind={project.kind} />}
               <div className="project-copy">
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
