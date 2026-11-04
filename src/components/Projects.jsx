@@ -3,10 +3,10 @@ import './Projects.css';
 // Projetos apresentados no portfólio.
 const projects = [
   {
-    name: 'João Vitor VM',
+    name: 'João Vitor Video Maker',
     description: 'Um site para apresentar trabalhos audiovisuais, contar histórias e conectar novos clientes ao trabalho do profissional.',
     image: '/assets/images/joao-vitor-vm.png',
-    imageAlt: 'Página inicial de João Vitor VM com um carro branco e a chamada Audiovisual que comunica e encanta.',
+    imageAlt: 'Página inicial de João Vitor Video Maker com um carro branco e a chamada Audiovisual que comunica e encanta.',
     imageWidth: 1911,
     imageHeight: 917,
     details: 'Apresentação digital de um profissional do audiovisual, com destaque para a identidade visual e os trabalhos realizados.'
