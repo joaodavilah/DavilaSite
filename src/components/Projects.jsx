@@ -4,14 +4,12 @@ import './Projects.css';
 const projects = [
   {
     name: 'Lume Fotografia',
-    category: 'Site institucional',
     description: 'Um espaço para transformar histórias em imagens e aproximar uma fotógrafa dos seus próximos clientes.',
     kind: 'photography',
     details: 'Conceito de um portfólio de fotografia com apresentação dos ensaios, informações sobre o trabalho e um caminho direto para agendar uma sessão.'
   },
   {
     name: 'Nexo Gestão',
-    category: 'Painel de dados',
     description: 'Uma visão clara do negócio, com os números que importam reunidos em uma interface simples.',
     kind: 'dashboard',
     details: 'Conceito de um painel de gestão que organiza receitas, pedidos e evolução mensal. Os números da prévia são ilustrativos.'
@@ -53,11 +51,10 @@ export default function Projects() {
           <h2 id="projects-title">Projetos selecionados<span>.</span></h2>
         </div>
         <div className="projects-list">
-          {projects.map((project, index) => (
+          {projects.map(project => (
             <article className="project-card" key={project.name}>
               <ProjectPreview kind={project.kind} />
               <div className="project-copy">
-                <div className="project-meta"><span>0{index + 1} / {project.category}</span><span className="project-example">Exemplo</span></div>
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
                 <details className="project-details"><summary>Conhecer o conceito <span aria-hidden="true">↗</span></summary><p>{project.details}</p></details>

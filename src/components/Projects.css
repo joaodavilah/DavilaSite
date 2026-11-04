@@ -5,9 +5,7 @@
 .projects-list { display: grid; gap: 28px; }
 .project-card { display: grid; grid-template-columns: 1.3fr 1fr; overflow: hidden; border: 1px solid var(--ink-line); border-radius: 22px; background: rgba(255,255,255,.018); }
 .project-copy { padding: clamp(28px, 4vw, 52px); align-self: center; min-width: 0; }
-.project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 10px; color: #a3afb9; }
-.project-example { border: 1px solid #ffffff20; border-radius: 20px; padding: 3px 9px; color: #b6c2c6; }
-.project-copy h3 { font-size: clamp(25px, 3vw, 36px); letter-spacing: -.035em; margin: 24px 0 16px; }
+.project-copy h3 { font-size: clamp(25px, 3vw, 36px); letter-spacing: -.035em; margin: 0 0 16px; }
 .project-copy > p, .project-details p { color: var(--paper-muted); font-size: 14px; line-height: 1.8; max-width: 37ch; }
 .project-details { margin-top: 28px; }
 .project-details summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 22px; width: fit-content; padding: 8px 0; border-bottom: 1px solid #ffffff35; font-size: 13px; }
