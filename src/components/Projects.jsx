@@ -50,8 +50,7 @@ export default function Projects() {
     <section className="projects" id="projetos" aria-labelledby="projects-title">
       <div className="container">
         <div className="projects-heading">
-          <div><span className="projects-eyebrow">DO CONCEITO À TELA</span><h2 id="projects-title">Projetos selecionados<span>.</span></h2></div>
-          <p>Ideias que ganham forma.<br />Soluções pensadas em cada detalhe.</p>
+          <h2 id="projects-title">Projetos selecionados<span>.</span></h2>
         </div>
         <div className="projects-list">
           {projects.map((project, index) => (
