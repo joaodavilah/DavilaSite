@@ -9,7 +9,7 @@ const projects = [
     imageAlt: 'Página inicial de João Vitor Video Maker com um carro branco e a chamada Audiovisual que comunica e encanta.',
     imageWidth: 1911,
     imageHeight: 917,
-    url: 'https://joaovitorvideomaker.com.br'
+    url: 'https://www.joaomollerivideomaker.com.br/'
   },
   {
     name: 'Finia Finance',
