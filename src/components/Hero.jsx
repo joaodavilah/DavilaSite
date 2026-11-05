@@ -69,8 +69,7 @@ export default function Hero() {
           octaveDecay={0.1}
           layerOffset={0}
           colorSpeed={1.0}
-          enableMouseInteraction
-          mouseInfluence={0.25}
+          enableMouseInteraction={false}
         />
       </div>
 
