@@ -9,7 +9,7 @@ const projects = [
     imageAlt: 'Página inicial de João Vitor Video Maker com um carro branco e a chamada Audiovisual que comunica e encanta.',
     imageWidth: 1911,
     imageHeight: 917,
-    details: 'Apresentação digital de um profissional do audiovisual, com destaque para a identidade visual e os trabalhos realizados.'
+    url: 'https://joaovitorvideomaker.com.br'
   },
   {
     name: 'Finia Finance',
@@ -18,7 +18,7 @@ const projects = [
     imageAlt: 'Tela de acesso do Finia Finance, com fundo escuro, formulário de login e botão amarelo para entrar na conta.',
     imageWidth: 1907,
     imageHeight: 907,
-    details: 'A tela de entrada reúne acesso à conta, recuperação de senha e cadastro em uma apresentação simples, com destaque para as ações principais.'
+    url: 'https://finiafinance.com.br'
   }
 ];
 
@@ -38,7 +38,9 @@ export default function Projects() {
               <div className="project-copy">
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                <details className="project-details"><summary>Conhecer o conceito <span aria-hidden="true">↗</span></summary><p>{project.details}</p></details>
+                <a className="project-link" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={`Visitar site de ${project.name} (abre em nova aba)`}>
+                  Visitar site <span aria-hidden="true">↗</span>
+                </a>
               </div>
             </article>
           ))}
